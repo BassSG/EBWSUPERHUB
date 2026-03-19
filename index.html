@@ -1239,45 +1239,6 @@
 // ========== APP DATA ==========
 const apps = [
     {
-        id: 0,
-        name: "TAProAlert Dashboard",
-        desc: "ระบบแจ้งเตือน Technical Analysis แบบ Pro ด้วย AI วิเคราะห์สัญญาณตลาดแบบ Real-time",
-        icon: "📊",
-        color: "linear-gradient(135deg, #4f8ef7, #1a56db)",
-        glow: "rgba(79,142,247,0.2)",
-        tag: "Trading",
-        tagColor: "rgba(79,142,247,0.15)",
-        tagText: "#4f8ef7",
-        url: "https://basssg.github.io/TAProAlert-Dashboard/",
-        cat: "trading"
-    },
-    {
-        id: 1,
-        name: "SnD Forex",
-        desc: "วิเคราะห์ Supply & Demand ในตลาด Forex ด้วย AI ระบุโซนสำคัญอัตโนมัติ",
-        icon: "💱",
-        color: "linear-gradient(135deg, #10b981, #059669)",
-        glow: "rgba(16,185,129,0.2)",
-        tag: "Forex",
-        tagColor: "rgba(16,185,129,0.15)",
-        tagText: "#10b981",
-        url: "https://basssg.github.io/SnDForex/",
-        cat: "trading"
-    },
-    {
-        id: 2,
-        name: "SnD Analysis",
-        desc: "วิเคราะห์เชิงลึก Supply & Demand Analysis ครอบคลุมทุก Timeframe",
-        icon: "📈",
-        color: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
-        glow: "rgba(139,92,246,0.2)",
-        tag: "Analysis",
-        tagColor: "rgba(139,92,246,0.15)",
-        tagText: "#8b5cf6",
-        url: "https://basssg.github.io/SnD_Analysis/",
-        cat: "trading"
-    },
-    {
         id: 3,
         name: "AlphaSense Analysis",
         desc: "AI วิเคราะห์ตลาดระดับ Alpha ด้วย Machine Learning ขั้นสูง",
@@ -1291,15 +1252,15 @@ const apps = [
         cat: "trading"
     },
     {
-        id: 4,
-        name: "Ocean Ten News",
-        desc: "ข่าวสารตลาดการเงินและเศรษฐกิจโลก คัดกรองด้วย AI อัพเดทตลอด 24 ชั่วโมง",
-        icon: "🌊",
-        color: "linear-gradient(135deg, #06b6d4, #0284c7)",
-        glow: "rgba(6,182,212,0.2)",
-        tag: "News",
-        tagColor: "rgba(6,182,212,0.15)",
-        tagText: "#06b6d4",
+        id: 8,
+        name: "Ocean Ten News (Main)",
+        desc: "หน้าหลัก Ocean Ten News รวมข่าวสารและการวิเคราะห์ตลาด",
+        icon: "🌐",
+        color: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
+        glow: "rgba(59,130,246,0.2)",
+        tag: "Portal",
+        tagColor: "rgba(59,130,246,0.15)",
+        tagText: "#3b82f6",
         url: "https://basssg.github.io/ocean-ten-news/",
         cat: "news"
     },
@@ -1330,6 +1291,45 @@ const apps = [
         cat: "news"
     },
     {
+        id: 1,
+        name: "SnD Forex",
+        desc: "วิเคราะห์ Supply & Demand ในตลาด Forex ด้วย AI ระบุโซนสำคัญอัตโนมัติ",
+        icon: "💱",
+        color: "linear-gradient(135deg, #10b981, #059669)",
+        glow: "rgba(16,185,129,0.2)",
+        tag: "Forex",
+        tagColor: "rgba(16,185,129,0.15)",
+        tagText: "#10b981",
+        url: "https://basssg.github.io/SnDForex/",
+        cat: "trading"
+    },
+    {
+        id: 2,
+        name: "SnD Analysis",
+        desc: "วิเคราะห์เชิงลึก Supply & Demand Analysis ครอบคลุมทุก Timeframe",
+        icon: "📈",
+        color: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+        glow: "rgba(139,92,246,0.2)",
+        tag: "Analysis",
+        tagColor: "rgba(139,92,246,0.15)",
+        tagText: "#8b5cf6",
+        url: "https://basssg.github.io/SnD_Analysis/",
+        cat: "trading"
+    },
+    {
+        id: 4,
+        name: "Ocean Ten News",
+        desc: "ข่าวสารตลาดการเงินและเศรษฐกิจโลก คัดกรองด้วย AI อัพเดทตลอด 24 ชั่วโมง",
+        icon: "🌊",
+        color: "linear-gradient(135deg, #06b6d4, #0284c7)",
+        glow: "rgba(6,182,212,0.2)",
+        tag: "News",
+        tagColor: "rgba(6,182,212,0.15)",
+        tagText: "#06b6d4",
+        url: "https://basssg.github.io/ocean-ten-news/",
+        cat: "news"
+    },
+    {
         id: 7,
         name: "XAUUSD News",
         desc: "ข่าวสารทองคำโดยเฉพาะ วิเคราะห์ผลกระทบต่อราคาด้วย AI",
@@ -1343,17 +1343,17 @@ const apps = [
         cat: "news"
     },
     {
-        id: 8,
-        name: "Ocean Ten News (Main)",
-        desc: "หน้าหลัก Ocean Ten News รวมข่าวสารและการวิเคราะห์ตลาด",
-        icon: "🌐",
-        color: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
-        glow: "rgba(59,130,246,0.2)",
-        tag: "Portal",
-        tagColor: "rgba(59,130,246,0.15)",
-        tagText: "#3b82f6",
-        url: "https://basssg.github.io/ocean-ten-news/",
-        cat: "news"
+        id: 0,
+        name: "TAProAlert Dashboard",
+        desc: "ระบบแจ้งเตือน Technical Analysis แบบ Pro ด้วย AI วิเคราะห์สัญญาณตลาดแบบ Real-time",
+        icon: "📊",
+        color: "linear-gradient(135deg, #4f8ef7, #1a56db)",
+        glow: "rgba(79,142,247,0.2)",
+        tag: "Trading",
+        tagColor: "rgba(79,142,247,0.15)",
+        tagText: "#4f8ef7",
+        url: "https://basssg.github.io/TAProAlert-Dashboard/",
+        cat: "trading"
     },
     {
         id: 9,
