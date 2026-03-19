@@ -7,12 +7,12 @@
   "theme_color": "#050508",
   "icons": [
     {
-      "src": "./assets/logo.png",
+      "src": "https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./assets/logo.png",
+      "src": "https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372",
       "sizes": "512x512",
       "type": "image/png"
     }
