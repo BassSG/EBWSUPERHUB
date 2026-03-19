@@ -7,14 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- App Icon / Favicon (แก้ไขใส่ลิงก์รูปภาพใหม่แล้ว) -->
-    <link rel="icon" type="image/webp" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
-    <link rel="apple-touch-icon" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
-    <link rel="apple-touch-icon" sizes="120x120" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
+    <link rel="icon" type="image/png" href="./assets/logo.png">
+    <link rel="apple-touch-icon" href="./assets/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./assets/logo.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./assets/logo.png">
 
-    <!-- PWA Manifest -->
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#050508">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1020,7 +1018,6 @@
 <div class="bg-canvas"></div>
 <div class="grid-overlay"></div>
 
-<!-- Search Overlay -->
 <div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
     <div class="search-box">
         <div class="search-input-wrap">
@@ -1034,14 +1031,11 @@
 
 <div class="app-wrapper">
 
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo" onclick="showHome()" title="Home">
-            <img src="https://s15-kling.klingai.com/kimg/EMXN1y8qdwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpdc3BlY2lhbC1lZmZlY3Qvb3V0cHV0L2QzODViNzA1LTEyYzQtNGJkNy04YzBiLWJlNTA2ZjUxOTQ4MC8tMzA3NzM2NjA3Mzk4MTc3MTU1OS90ZW1wMTIzbDQucG5n:720x435.webp?x-kcdn-pid=112372" 
-                 style="width:36px; height:36px; object-fit:cover; border-radius:8px;">
+            <img src="./assets/logo.png" style="width:36px; height:36px; object-fit:cover; border-radius:8px;">
         </div>
 
-        
         <div class="sidebar-divider"></div>
 
         <button class="sidebar-btn active" id="sb-home" onclick="showHome()" title="หน้าหลัก">
@@ -1056,7 +1050,6 @@
 
         <div class="sidebar-divider"></div>
 
-        <!-- Quick app buttons -->
         <button class="sidebar-btn" onclick="openApp(0)" title="TAProAlert">
             📊
             <span class="tooltip">TAProAlert</span>
@@ -1119,10 +1112,8 @@
         <div class="time-display" id="sidebarTime" style="writing-mode: vertical-rl; text-orientation: mixed; padding: 8px 0;"></div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
 
-        <!-- Top Bar -->
         <div class="topbar">
             <div class="topbar-title">
                 <span>⚡ AI</span> Command Center
@@ -1136,13 +1127,10 @@
             <button class="topbar-btn" onclick="showHome()" title="หน้าหลัก">🏠</button>
         </div>
 
-        <!-- Content Area -->
         <div class="content-area">
 
-            <!-- Home View -->
             <div class="home-view active" id="homeView">
 
-                <!-- Hero -->
                 <div class="hero-section">
                     <div class="hero-badge">
                         ✨ Powered by Artificial Intelligence
@@ -1155,7 +1143,6 @@
                     </p>
                 </div>
 
-                <!-- Stats -->
                 <div class="stats-row">
                     <div class="stat-card fade-in-up">
                         <div class="stat-value">15</div>
@@ -1175,7 +1162,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Launch -->
                 <div class="section-title">⚡ Quick Launch</div>
                 <div class="quick-launch">
                     <button class="quick-btn" onclick="openApp(0)">📊 TAProAlert</button>
@@ -1186,7 +1172,6 @@
                     <button class="quick-btn" onclick="openApp(11)">✈️ Trip Planner</button>
                 </div>
 
-                <!-- Category Tabs -->
                 <div class="cat-tabs">
                     <button class="cat-tab active" onclick="filterCat('all', this)">🌐 ทั้งหมด</button>
                     <button class="cat-tab" onclick="filterCat('trading', this)">📈 Trading</button>
@@ -1195,15 +1180,12 @@
                     <button class="cat-tab" onclick="filterCat('lifestyle', this)">🌟 Lifestyle</button>
                 </div>
 
-                <!-- App Grid -->
                 <div class="section-title">🚀 All Applications</div>
                 <div class="app-grid" id="appGrid">
-                    <!-- Cards will be generated by JS -->
-                </div>
+                    </div>
 
             </div>
 
-            <!-- iFrame View -->
             <div class="iframe-view" id="iframeView">
                 <div class="iframe-toolbar">
                     <button class="iframe-back-btn" onclick="showHome()">
@@ -1231,7 +1213,6 @@
     </main>
 </div>
 
-<!-- Mobile Bottom Nav -->
 <nav class="mobile-nav" id="mobileNav">
     <button class="mobile-nav-btn active" id="mn-home" onclick="showHome()">
         <span class="icon">🏠</span>
@@ -1639,6 +1620,19 @@ setInterval(createParticle, 3000);
 
 // ========== INIT ==========
 renderApps();
+
+// ========== PWA SERVICE WORKER REGISTRATION ==========
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
 </script>
 
 </body>
