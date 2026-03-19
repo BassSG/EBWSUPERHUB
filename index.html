@@ -176,8 +176,8 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.07);
-      margin-bottom: 16px;
-      padding: 34px 38px;
+      margin-bottom: 20px;
+      padding: 48px 52px;
     }
     .hero::before {
       content: "";
@@ -289,7 +289,7 @@
     .search input {
       width: 100%; height: 42px; border-radius: 13px;
       border: 1px solid var(--line-2); background: rgba(255,255,255,.04);
-      color: var(--text); padding: 0 42px 0 16px; font: inherit; font-weight:600;
+      color: var(--text); padding: 0 42px 0 16px; font: inherit;
       font-size: .88rem; outline: none; transition: border-color .2s, box-shadow .2s;
     }
     .search input::placeholder { color: var(--soft); }
@@ -408,15 +408,6 @@
       transform: translate(2px,-2px);
     }
 
-
-    .section-head{
-      grid-column:1/-1;
-      display:flex;align-items:end;justify-content:space-between;gap:10px;
-      padding:4px 2px 2px;margin-top:2px;
-      border-bottom:1px dashed rgba(255,255,255,.12);
-    }
-    .section-head span{font-size:.95rem;font-weight:800;color:#dbe7ff;letter-spacing:.2px}
-    .section-head small{font-size:.75rem;color:var(--soft)}
     /* ── Empty state ── */
     .empty-state {
       grid-column: 1/-1; padding: 60px 20px; text-align: center;
@@ -602,8 +593,6 @@
       <!-- Card Grid -->
       <div class="card-grid anim anim-d5" id="cardGrid">
 
-        <div class="section-head" data-section="trading"><span>📈 Trading & Analysis</span><small>เครื่องมือวิเคราะห์และติดตามตลาด</small></div>
-
         <!-- Trading & Analysis -->
         <a class="hub-card wide" data-section="trading" data-app="tapro" data-name="TAPro" data-desc="Automated Trading Analysis Platform วิเคราะห์ตลาดอัตโนมัติ" href="https://basssg.github.io/AlphaSense-Analysis-Webapp/" target="_blank" rel="noopener noreferrer" style="--accent:var(--cyan);--accent-glow:rgba(56,217,245,.18)">
           <div class="hub-top">
@@ -652,8 +641,6 @@
           </div>
           <div class="hub-foot"><span>Trading</span><span class="hub-arrow">↗</span></div>
         </a>
-
-        <div class="section-head" data-section="news"><span>📰 News & Info</span><small>ข่าวสารและสรุปเชิงกลยุทธ์</small></div>
 
         <!-- News & Info -->
         <a class="hub-card wide" data-section="news" data-app="thai-daily-news" data-name="Thai Daily News" data-desc="ข่าวสารที่คุณต้องการอ่านทั้งหมด รวมไว้ในที่เดียว" href="https://basssg.github.io/Thai_Daily_News/" target="_blank" rel="noopener noreferrer" style="--accent:var(--amber);--accent-glow:rgba(255,200,74,.16)">
@@ -704,8 +691,6 @@
           <div class="hub-foot"><span>Trading</span><span class="hub-arrow">↗</span></div>
         </a>
 
-        <div class="section-head" data-section="productivity"><span>⚙️ Productivity</span><small>เครื่องมือจัดการงานและระบบ</small></div>
-
         <!-- Productivity -->
         <a class="hub-card" data-section="productivity" data-app="googlesheet" data-name="GoogleSheet" data-desc="Enhanced Spreadsheet and Scripts" href="https://basssg.github.io/GoogleSheet/" target="_blank" rel="noopener noreferrer" style="--accent:var(--blue);--accent-glow:rgba(85,144,255,.14)">
           <div class="hub-top">
@@ -742,8 +727,6 @@
           </div>
           <div class="hub-foot"><span>Productivity</span><span class="hub-arrow">↗</span></div>
         </a>
-
-        <div class="section-head" data-section="lifestyle"><span>✨ Lifestyle</span><small>แอปใช้งานส่วนตัวและไลฟ์สไตล์</small></div>
 
         <!-- Lifestyle -->
         <a class="hub-card" data-section="lifestyle" data-app="tripplanner" data-name="TripPlanner" data-desc="Smart Travel Planning Assistant" href="https://basssg.github.io/TripPlanner/" target="_blank" rel="noopener noreferrer" style="--accent:var(--green);--accent-glow:rgba(52,232,160,.14)">
@@ -807,7 +790,6 @@
 
   <script>
     const cards = Array.from(document.querySelectorAll('.hub-card'));
-    const sectionHeads = Array.from(document.querySelectorAll('.section-head'));
     const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
     const searchInput = document.getElementById('searchInput');
     const totalAppsEl = document.getElementById('totalApps');
@@ -875,8 +857,6 @@
       const term = (searchInput.value || '').trim().toLowerCase();
       let visible = 0;
 
-      const visibleBySection = { trading:0, news:0, productivity:0, lifestyle:0 };
-
       cards.forEach(card => {
         const section = card.dataset.section || '';
         const slug = card.dataset.app || '';
@@ -891,16 +871,7 @@
         if (show && term) show = name.includes(term) || desc.includes(term) || section.includes(term);
 
         card.classList.toggle('hidden', !show);
-        if (show) {
-          visible++;
-          if (visibleBySection[section] !== undefined) visibleBySection[section]++;
-        }
-      });
-
-      sectionHeads.forEach(h=>{
-        const sec = h.dataset.section;
-        const showHead = (filter==='all' || filter===sec || filter==='recent') && (visibleBySection[sec]||0)>0;
-        h.style.display = showHead ? 'flex' : 'none';
+        if (show) visible++;
       });
 
       appCountBadge.textContent = `${visible} Apps`;
