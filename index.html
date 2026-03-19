@@ -242,9 +242,15 @@
 
     /* ── Category tabs ── */
     .tabs-wrap {
+      position: sticky; top: 8px; z-index: 12;
       display: flex; align-items: center; gap: 12px;
       margin-bottom: 20px; overflow-x: auto; scrollbar-width: none;
-      padding: 2px 0;
+      padding: 8px 10px;
+      border: 1px solid var(--line-2);
+      border-radius: 14px;
+      background: rgba(8,11,22,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
     .tabs-wrap::-webkit-scrollbar { display: none; }
 
@@ -270,7 +276,11 @@
     /* ── Toolbar ── */
     .toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 14px; margin-bottom: 18px; flex-wrap: wrap;
+      gap: 14px; margin-bottom: 14px; flex-wrap: wrap;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
     }
 
     .search {
@@ -291,6 +301,19 @@
 
     .toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .count-badge { font-size: .82rem; font-weight: 700; color: var(--muted); }
+
+    .quick-launch{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+      margin-bottom:16px;
+    }
+    .quick-link{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);
+      background:rgba(255,255,255,.03);text-decoration:none;color:var(--text);
+      transition:all .2s var(--ease);
+    }
+    .quick-link small{color:var(--muted);font-size:.78rem;display:block;margin-top:2px}
+    .quick-link:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
     .pill {
       padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line);
       background: rgba(255,255,255,.03); color: var(--muted); font-size: .76rem; font-weight: 700;
@@ -300,16 +323,16 @@
     .card-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
+      gap: 16px;
     }
 
     .hub-card {
       position: relative; display: flex; flex-direction: column; gap: 12px;
-      min-height: 200px; border-radius: 22px; border: 1px solid var(--line);
-      background: linear-gradient(160deg, rgba(16,20,38,.82), rgba(10,13,26,.82));
+      min-height: 208px; border-radius: 20px; border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(16,20,38,.86), rgba(10,13,26,.90));
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       padding: 18px; text-decoration: none; color: inherit; overflow: hidden;
-      transition: transform .25s var(--ease-spring), border-color .2s, box-shadow .25s var(--ease);
+      transition: transform .2s var(--ease-spring), border-color .2s, box-shadow .2s var(--ease);
     }
     .hub-card::before {
       content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -323,9 +346,14 @@
       transition: opacity .2s;
     }
     .hub-card:hover {
-      transform: translateY(-5px) scale(1.01);
-      border-color: rgba(255,255,255,.16);
-      box-shadow: 0 20px 50px rgba(0,0,0,.36), 0 0 0 1px rgba(255,255,255,.06);
+      transform: translateY(-3px) scale(1.005);
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 16px 38px rgba(0,0,0,.34), 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .hub-card:focus-visible {
+      outline: none;
+      border-color: rgba(56,217,245,.55);
+      box-shadow: 0 0 0 3px rgba(56,217,245,.18), 0 16px 38px rgba(0,0,0,.34);
     }
     .hub-card:hover::before { opacity: .9; }
 
@@ -356,8 +384,11 @@
     }
 
     .hub-body { position: relative; z-index: 1; flex: 1; }
-    .hub-title { font-size: 1rem; font-weight: 800; margin-bottom: 7px; }
-    .hub-desc { color: var(--muted); font-size: .84rem; line-height: 1.65; }
+    .hub-title { font-size: 1.03rem; font-weight: 800; margin-bottom: 7px; letter-spacing:.1px; }
+    .hub-desc {
+      color: #b3c0de; font-size: .88rem; line-height: 1.55;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
 
     .hub-foot {
       position: relative; z-index: 1; margin-top: auto;
@@ -431,6 +462,7 @@
       .hero { padding: 24px 20px; border-radius: 22px; }
       .hero-title { font-size: 2.3rem; }
       .hero-stats { grid-template-columns: 1fr 1fr; }
+      .quick-launch { grid-template-columns: 1fr; }
       .card-grid { grid-template-columns: 1fr; }
       .hub-card.wide { grid-column: span 1; }
       .footer { flex-direction: column; }
@@ -539,6 +571,23 @@
           <div class="pill">GitHub Pages</div>
           <div class="pill">Mobile First</div>
         </div>
+      </div>
+
+      <div class="quick-launch anim anim-d5">
+        <a class="quick-link" href="https://basssg.github.io/ocean-ten-news/chart-xau-alert.html" target="_blank" rel="noopener noreferrer">
+          <div>
+            <strong>⚡ Ocean Ten XAU Tracker</strong>
+            <small>เปิดกราฟสด + Overlay ออเดอร์ทันที</small>
+          </div>
+          <span>↗</span>
+        </a>
+        <a class="quick-link" href="https://basssg.github.io/ocean-ten-news/" target="_blank" rel="noopener noreferrer">
+          <div>
+            <strong>📰 Ocean Ten News</strong>
+            <small>สรุปข่าวพรีเมียมแบบอ่านเร็ว</small>
+          </div>
+          <span>↗</span>
+        </a>
       </div>
 
       <!-- Card Grid -->
