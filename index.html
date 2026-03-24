@@ -929,14 +929,24 @@
             .app-tag { font-size: 9px; padding: 2px 6px; }
             .app-open { font-size: 10px; }
             .preview-big-icon { font-size: 28px; }
-            .app-card-pinned { flex-direction: column; min-height: unset; }
+            #pinnedGrid { grid-template-columns: 1fr; }
+            .app-card-pinned {
+                flex-direction: row;
+                min-height: 120px;
+            }
             .app-card-pinned .app-preview {
-                width: 100%; min-width: unset; height: 120px; min-height: unset;
+                width: 130px; min-width: 130px;
+                height: auto; min-height: 120px;
                 border-radius: 0;
             }
-            .app-card-pinned .app-desc { -webkit-line-clamp: 2; }
+            .app-card-pinned .app-body {
+                padding: 10px 12px 10px;
+            }
+            .app-card-pinned .app-name { font-size: 13px; }
+            .app-card-pinned .app-desc {
+                font-size: 11px; -webkit-line-clamp: 2; line-clamp: 2;
+            }
             .app-card-pinned .pin-move-btns { bottom: auto; top: 8px; left: 8px; }
-            #pinnedGrid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 480px) {
             .stats-row { grid-template-columns: repeat(2,1fr); }
