@@ -1234,235 +1234,66 @@ function buildCard(app, i) {
 }
 
 // ═══════════════════════════════════════
-// PREVIEW CACHE SYSTEM
+// LOAD PREVIEWS (iframe screenshots)
 // ═══════════════════════════════════════
+// ใช้ screenshot service เพื่อดึงรูปหน้าเว็บ
+// เนื่องจาก iframe cross-origin ถูกบล็อก
+// จึงใช้ screenshot API แทน
+const screenshotServices = [
+    (url) => `https://api.screenshotmachine.com/?key=demo&url=${encodeURIComponent(url)}&dimension=1280x800&format=jpg&cacheLimit=0`,
+    (url) => `https://image.thum.io/get/width/640/crop/400/noanimate/${encodeURIComponent(url)}`,
+    (url) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=640&h=400`
+];
 
-const CACHE_KEY = 'ai_cmd_previews_v1';
-const CACHE_EXPIRE_MS = 7 * 24 * 60 * 60 * 1000; // 7 วัน
+function loadPreviews() {
+    apps.forEach(app => {
+        const previewEl = document.getElementById(`preview-${app.id}`);
+        const loadingEl = document.getElementById(`prev-loading-${app.id}`);
+        if (!previewEl) return;
 
-// อ่าน cache ทั้งหมดจาก localStorage
-function readCache() {
-    try {
-        const raw = localStorage.getItem(CACHE_KEY);
-        if (!raw) return {};
-        return JSON.parse(raw);
-    } catch(e) {
-        return {};
-    }
-}
+        // ใช้ thum.io เป็น screenshot service
+        const imgUrl = `https://image.thum.io/get/width/640/crop/400/noanimate/${encodeURIComponent(app.url)}`;
 
-// บันทึก cache
-function writeCache(cache) {
-    try {
-        localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-    } catch(e) {
-        // localStorage เต็ม → ล้างแล้วลองใหม่
-        localStorage.removeItem(CACHE_KEY);
-    }
-}
-
-// ดึง cache ของ app นั้น (คืน dataURL หรือ null)
-function getCached(appId) {
-    const cache = readCache();
-    const entry = cache[appId];
-    if (!entry) return null;
-    // เช็ค expire
-    if (Date.now() - entry.ts > CACHE_EXPIRE_MS) {
-        delete cache[appId];
-        writeCache(cache);
-        return null;
-    }
-    return entry.dataUrl;
-}
-
-// บันทึก cache ของ app นั้น
-function setCached(appId, dataUrl) {
-    const cache = readCache();
-    cache[appId] = { dataUrl, ts: Date.now() };
-    writeCache(cache);
-}
-
-// แปลง image URL → dataURL ผ่าน canvas (เพื่อเก็บใน localStorage)
-function toDataUrl(img) {
-    try {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth || img.width;
-        canvas.height = img.naturalHeight || img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        return canvas.toDataURL('image/jpeg', 0.7);
-    } catch(e) {
-        // CORS block → ใช้ src โดยตรงแทน (ไม่ได้เป็น dataURL แต่ยังใช้ได้)
-        return img.src;
-    }
-}
-
-// ตรวจว่ารูปเป็น placeholder/blank ไหม
-// → ตรวจจาก naturalWidth/Height และสี
-function isUselessImage(img) {
-    // รูปเล็กเกินไป = placeholder
-    if (img.naturalWidth < 100 || img.naturalHeight < 100) return true;
-    try {
-        const canvas = document.createElement('canvas');
-        canvas.width = 20; canvas.height = 20;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, 20, 20);
-        const data = ctx.getImageData(0, 0, 20, 20).data;
-        let sumR = 0, sumG = 0, sumB = 0, count = 0;
-        for (let i = 0; i < data.length; i += 4) {
-            if (data[i+3] > 10) {
-                sumR += data[i]; sumG += data[i+1]; sumB += data[i+2];
-                count++;
-            }
-        }
-        if (count === 0) return true;
-        const avgR = sumR/count, avgG = sumG/count, avgB = sumB/count;
-        // ขาวเกิน (>240) หรือ เทาเหมือน placeholder (#e0e0e0 ≈ 224)
-        const isWhite = avgR > 240 && avgG > 240 && avgB > 240;
-        const isGray  = Math.abs(avgR-avgG) < 8 && Math.abs(avgG-avgB) < 8 && avgR > 200;
-        return isWhite || isGray;
-    } catch(e) {
-        return false; // CORS → ถือว่าใช้ได้
-    }
-}
-
-function getServiceUrls(url) {
-    const enc = encodeURIComponent(url);
-    return [
-        // Service 1: thum.io (ไม่ต้อง key, ฟรี)
-        `https://image.thum.io/get/width/640/crop/400/noanimate/${enc}`,
-        // Service 2: wp.com mshots (ไม่ต้อง key, ฟรี)
-        `https://s0.wp.com/mshots/v1/${enc}?w=640&h=400`,
-        // Service 3: thumbnail.ws (ไม่ต้อง key)
-        `https://api.thumbnail.ws/api/abc123/thumbnail/get?url=${enc}&width=640`,
-        // Service 4: site-shot.com (ไม่ต้อง key)
-        `https://api.site-shot.com/?url=${enc}&width=1280&height=800&format=jpg&screen_width=1280&screen_height=800`,
-    ];
-}
-
-
-// โหลด preview ด้วย service chain + cache
-function loadPreviewForApp(app) {
-    const previewEl = document.getElementById(`preview-${app.id}`);
-    const loadingEl = document.getElementById(`prev-loading-${app.id}`);
-    if (!previewEl) return;
-
-    // ── ตรวจ cache ก่อน ──
-    const cached = getCached(app.id);
-    if (cached) {
-        showPreviewImg(cached, previewEl, loadingEl, false); // false = ไม่ต้อง cache ซ้ำ
-        return;
-    }
-
-    // ── ไม่มี cache → โหลดจาก service ──
-    // ข้าม Google PageSpeed (index 0) เพราะต้อง parse JSON
-    // ใช้ index 1-3 ก่อน
-    const urls = getServiceUrls(app.url);
-    const imgUrls = urls.slice(1); // thum.io, mshots, screenshotmachine
-    let idx = 0;
-
-    function tryNext() {
-        if (idx >= imgUrls.length) {
-            // หมด service → color fallback
-            if (loadingEl) loadingEl.style.display = 'none';
-            showColorFallback(previewEl, app);
-            return;
-        }
-
-        const src = imgUrls[idx++];
         const img = new Image();
-        img.crossOrigin = 'anonymous';
-
-        const timer = setTimeout(() => {
-            img.onload = img.onerror = null;
-            img.src = '';
-            tryNext();
-        }, 10000); // 10 วิ timeout
+        img.style.cssText = `
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: top;
+            z-index: 1;
+            transition: opacity 0.4s ease;
+            opacity: 0;
+        `;
 
         img.onload = () => {
-            clearTimeout(timer);
-            if (isUselessImage(img)) {
-                tryNext();
-                return;
-            }
-            // รูปดี → แสดงและ cache
-            const dataUrl = toDataUrl(img);
-            setCached(app.id, dataUrl);
-            showPreviewImg(dataUrl, previewEl, loadingEl, false);
+            if (loadingEl) loadingEl.style.display = 'none';
+            previewEl.appendChild(img);
+            // Fade in
+            requestAnimationFrame(() => {
+                img.style.opacity = '1';
+            });
         };
 
         img.onerror = () => {
-            clearTimeout(timer);
-            tryNext();
+            // Fallback: try wp.com mshots
+            const img2 = new Image();
+            img2.style.cssText = img.style.cssText;
+            img2.onload = () => {
+                if (loadingEl) loadingEl.style.display = 'none';
+                previewEl.appendChild(img2);
+                requestAnimationFrame(() => { img2.style.opacity = '1'; });
+            };
+            img2.onerror = () => {
+                // Final fallback: hide loading, show color bg
+                if (loadingEl) loadingEl.style.display = 'none';
+            };
+            img2.src = `https://s0.wp.com/mshots/v1/${encodeURIComponent(app.url)}?w=640&h=400`;
         };
 
-        img.src = src;
-    }
-
-    tryNext();
+        img.src = imgUrl;
+    });
 }
-
-// แสดงรูป preview ใน element
-function showPreviewImg(src, previewEl, loadingEl, saveToCache) {
-    const img = document.createElement('img');
-    img.style.cssText = `
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        object-fit: cover;
-        object-position: top center;
-        z-index: 1;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    `;
-    img.src = src;
-    img.onload = () => {
-        if (loadingEl) loadingEl.style.display = 'none';
-        previewEl.appendChild(img);
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-            img.style.opacity = '1';
-        }));
-    };
-    img.onerror = () => {
-        if (loadingEl) loadingEl.style.display = 'none';
-    };
-}
-
-// Color gradient fallback
-function showColorFallback(previewEl, app) {
-    const div = document.createElement('div');
-    div.style.cssText = `
-        position: absolute; inset: 0;
-        background: ${app.color};
-        opacity: 0.25; z-index: 1;
-        display: flex; align-items: center; justify-content: center;
-    `;
-    div.innerHTML = `<span style="font-size:54px;opacity:0.45;filter:blur(1px)">${app.icon}</span>`;
-    previewEl.appendChild(div);
-}
-
-// โหลดทุก app แบบ batch (ทีละ 2 เพื่อไม่ spam)
-function loadPreviews() {
-    const BATCH = 2;
-    let idx = 0;
-
-    function nextBatch() {
-        const batch = apps.slice(idx, idx + BATCH);
-        if (!batch.length) return;
-        batch.forEach(app => loadPreviewForApp(app));
-        idx += BATCH;
-        if (idx < apps.length) setTimeout(nextBatch, 2000);
-    }
-
-    nextBatch();
-}
-
-// ล้าง cache ทั้งหมด (เรียกได้จาก console: clearPreviewCache())
-function clearPreviewCache() {
-    localStorage.removeItem(CACHE_KEY);
-    console.log('Preview cache cleared!');
-}
-
 
 // ═══════════════════════════════════════
 // OPEN APP
