@@ -993,6 +993,72 @@
             color: var(--accent-blue);
         }
 
+        .category-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 32px;
+        }
+
+        .category-block {
+            background: rgba(13,13,26,0.45);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 16px;
+        }
+
+        .category-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .category-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .category-count {
+            font-size: 11px;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 3px 8px;
+        }
+
+        .app-preview {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            object-fit: cover;
+            display: block;
+        }
+
+        .app-preview-wrap {
+            position: relative;
+        }
+
+        .preview-fallback {
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(79,142,247,0.12), rgba(139,92,246,0.12));
+            border: 1px dashed rgba(255,255,255,0.12);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-align: center;
+            padding: 10px;
+        }
+
         /* Floating particles */
         .particle {
             position: fixed;
@@ -1186,9 +1252,8 @@
                     <button class="cat-tab" onclick="filterCat('lifestyle', this)">🌟 Lifestyle</button>
                 </div>
 
-                <div class="section-title">🚀 All Applications</div>
-                <div class="app-grid" id="appGrid">
-                    </div>
+                <div class="section-title">🚀 Application Explorer</div>
+                <div class="category-sections" id="categorySections"></div>
 
             </div>
 
@@ -1442,14 +1507,34 @@ const apps = [
     }
 ];
 
-// ========== RENDER APP GRID ==========
-function renderApps(filter = 'all') {
-    const grid = document.getElementById('appGrid');
-    const filtered = filter === 'all' ? apps : apps.filter(a => a.cat === filter);
-    
-    grid.innerHTML = filtered.map((app, i) => `
+const categoryMeta = {
+    all: { icon: "🌐", title: "ทั้งหมด" },
+    trading: { icon: "📈", title: "Trading & Investment" },
+    news: { icon: "📰", title: "News & Updates" },
+    tools: { icon: "🛠️", title: "Tools & Automation" },
+    lifestyle: { icon: "🌟", title: "Lifestyle & Service" }
+};
+
+function getPreviewImageUrl(url) {
+    return `https://image.thum.io/get/width/1200/crop/700/noanimate/${encodeURIComponent(url)}`;
+}
+
+function renderAppCard(app, i) {
+    const previewUrl = getPreviewImageUrl(app.url);
+    return `
         <div class="app-card fade-in-up" onclick="openApp(${app.id})" style="--delay:${i * 0.05}s">
             <div class="app-card-glow" style="background: radial-gradient(circle, ${app.glow} 0%, transparent 70%)"></div>
+            <div class="app-preview-wrap">
+                <img
+                    class="app-preview"
+                    src="${previewUrl}"
+                    alt="ภาพตัวอย่าง ${app.name}"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                    onerror="this.style.opacity='0'; this.nextElementSibling.style.display='flex';"
+                />
+                <div class="preview-fallback">ไม่สามารถโหลดภาพตัวอย่างได้<br>กดเพื่อเปิดหน้าเว็บ</div>
+            </div>
             <div class="app-card-header">
                 <div class="app-icon" style="background: ${app.color}">
                     ${app.icon}
@@ -1468,7 +1553,31 @@ function renderApps(filter = 'all') {
                 </span>
             </div>
         </div>
-    `).join('');
+    `;
+}
+
+// ========== RENDER CATEGORIZED APPS ==========
+function renderApps(filter = 'all') {
+    const container = document.getElementById('categorySections');
+    const categories = filter === 'all'
+        ? ['trading', 'news', 'tools', 'lifestyle']
+        : [filter];
+
+    container.innerHTML = categories.map(cat => {
+        const list = apps.filter(app => app.cat === cat);
+        const meta = categoryMeta[cat];
+        return `
+            <section class="category-block">
+                <div class="category-head">
+                    <h3 class="category-title">${meta.icon} ${meta.title}</h3>
+                    <span class="category-count">${list.length} apps</span>
+                </div>
+                <div class="app-grid">
+                    ${list.map((app, i) => renderAppCard(app, i)).join('')}
+                </div>
+            </section>
+        `;
+    }).join('');
 }
 
 // ========== FILTER CATEGORY ==========
@@ -1480,7 +1589,7 @@ function filterCat(cat, btn) {
 
 // ========== OPEN APP ==========
 function openApp(id) {
-    const app = apps[id];
+    const app = apps.find((item) => item.id === id);
     if (!app) return;
 
     document.getElementById('homeView').classList.remove('active');
