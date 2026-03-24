@@ -837,10 +837,19 @@
             .stats-row { grid-template-columns: repeat(2,1fr); padding: 0 16px 20px; }
             .quick-section { padding: 0 16px 20px; }
             .categories-wrap { padding: 0 16px 40px; }
-            .app-grid { grid-template-columns: 1fr; }
+            .pinned-section, .recent-section { padding: 0 16px 20px; }
+            .app-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .app-preview { height: 110px; }
+            .app-body { padding: 10px 10px 10px; }
+            .app-name { font-size: 12px; }
+            .app-desc { font-size: 10px; -webkit-line-clamp: 1; }
+            .app-tag { font-size: 9px; padding: 2px 6px; }
+            .app-open { font-size: 10px; }
+            .preview-big-icon { font-size: 28px; }
         }
         @media (max-width: 480px) {
             .stats-row { grid-template-columns: repeat(2,1fr); }
+            .hero-title { font-size: 22px; }
         }
 
         /* ── ANIMATIONS ── */
