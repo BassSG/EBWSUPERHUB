@@ -2091,7 +2091,9 @@ async function submitNewApp() {
     const tag  = document.getElementById('addTag').value.trim() || 'Web';
 
     if (!name) { alert('กรุณาใส่ชื่อแอป'); document.getElementById('addName').focus(); return; }
-    if (!url || !url.startsWith('http')) { alert('กรุณาใส่ URL ที่ถูกต้อง (ขึ้นต้นด้วย https://)'); document.getElementById('addUrl').focus(); return; }
+    if (!url) { alert('กรุณาใส่ URL เว็บไซต์'); document.getElementById('addUrl').focus(); return; }
+    if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+    document.getElementById('addUrl').value = url;
 
     const btn = document.getElementById('addSubmitBtn');
     btn.disabled = true;
