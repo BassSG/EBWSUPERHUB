@@ -587,6 +587,37 @@
             transform: scale(1.1);
         }
 
+        /* ── PINNED MOVE BUTTONS ── */
+        .pin-move-btns {
+            position: absolute;
+            top: 8px; left: 8px;
+            display: flex; gap: 4px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .app-card:hover .pin-move-btns { opacity: 1; }
+        .pin-move-btn {
+            width: 26px; height: 26px;
+            border-radius: 7px;
+            border: 1px solid rgba(245,166,35,0.2);
+            background: rgba(6,6,13,0.75);
+            backdrop-filter: blur(8px);
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .pin-move-btn:hover {
+            background: rgba(245,166,35,0.2);
+            border-color: rgba(245,166,35,0.55);
+            color: var(--accent-gold);
+        }
+        .pin-move-btn:disabled {
+            opacity: 0.2; cursor: default;
+        }
+
         /* ── PINNED / RECENT SECTIONS ── */
         .pinned-section, .recent-section {
             padding: 0 28px 24px;
@@ -1274,11 +1305,19 @@ function renderCategories() {
 // ═══════════════════════════════════════
 // BUILD APP CARD (with preview iframe)
 // ═══════════════════════════════════════
-function buildCard(app, i) {
-    const pinned = getPinned().includes(app.id);
+function buildCard(app, i, opts) {
+    const idPfx = (opts && opts.idPrefix) ? opts.idPrefix : '';
+    const showMove = !!(opts && opts.showMove);
+    const pinnedList = getPinned();
+    const pinned = pinnedList.includes(app.id);
+    const moveLeft = showMove ? `<button class="pin-move-btn" onclick="movePinned(${app.id},-1,event)" title="เลื่อนซ้าย" ${pinnedList.indexOf(app.id) === 0 ? 'disabled' : ''}>◀</button>` : '';
+    const moveRight = showMove ? `<button class="pin-move-btn" onclick="movePinned(${app.id},1,event)" title="เลื่อนขวา" ${pinnedList.indexOf(app.id) === pinnedList.length - 1 ? 'disabled' : ''}>▶</button>` : '';
     return `
     <div class="app-card fade-up" onclick="openApp(${app.id})"
          style="animation-delay:${i * 0.06}s">
+
+        <!-- Move Buttons (pinned only) -->
+        ${showMove ? `<div class="pin-move-btns">${moveLeft}${moveRight}</div>` : ''}
 
         <!-- Pin Button -->
         <button class="pin-btn ${pinned ? 'pinned' : ''}"
@@ -1286,13 +1325,13 @@ function buildCard(app, i) {
             title="${pinned ? 'ถอน Pin' : 'Pin แอปนี้'}">${pinned ? '📌' : '📍'}</button>
 
         <!-- Preview Area -->
-        <div class="app-preview" id="preview-${app.id}">
+        <div class="app-preview" id="${idPfx}preview-${app.id}">
             <!-- Color fallback bg -->
             <div class="app-preview-color" style="background:${app.color}; opacity:0.18;">
                 <div class="preview-big-icon">${app.icon}</div>
             </div>
             <!-- Loading indicator -->
-            <div class="app-preview-loading" id="prev-loading-${app.id}">
+            <div class="app-preview-loading" id="${idPfx}prev-loading-${app.id}">
                 <div class="preview-spinner"></div>
                 <div class="preview-loading-txt">กำลังโหลด Preview...</div>
             </div>
@@ -1353,9 +1392,12 @@ function renderPinned() {
     sec.style.display = 'block';
     grid.innerHTML = pinnedIds.map((id, i) => {
         const app = apps.find(a => a.id === id);
-        return app ? buildCard(app, i) : '';
+        return app ? buildCard(app, i, { idPrefix: 'pin-', showMove: true }) : '';
     }).join('');
-    setTimeout(() => pinnedIds.forEach(id => loadPreviewForApp(apps.find(a => a.id === id))), 100);
+    setTimeout(() => pinnedIds.forEach(id => {
+        const app = apps.find(a => a.id === id);
+        if (app) loadPreviewForApp(app, 'pin-');
+    }), 100);
 }
 
 // ═══════════════════════════════════════
@@ -1439,9 +1481,10 @@ function showPreviewImg(previewEl, loadingEl, imgUrl) {
 // ═══════════════════════════════════════
 // LOAD PREVIEWS — Microlink API + Cache
 // ═══════════════════════════════════════
-function loadPreviewForApp(app) {
-    const previewEl = document.getElementById(`preview-${app.id}`);
-    const loadingEl = document.getElementById(`prev-loading-${app.id}`);
+function loadPreviewForApp(app, idPfx) {
+    const pfx = idPfx || '';
+    const previewEl = document.getElementById(`${pfx}preview-${app.id}`);
+    const loadingEl = document.getElementById(`${pfx}prev-loading-${app.id}`);
     if (!previewEl) return;
 
     // ดึงจาก cache ก่อน (ถ้ายังไม่หมดอายุ 30 วัน)
@@ -1474,10 +1517,22 @@ function loadPreviewForApp(app) {
         });
 }
 
+function movePinned(appId, dir, e) {
+    e.stopPropagation();
+    let pinned = getPinned();
+    const idx = pinned.indexOf(appId);
+    if (idx === -1) return;
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= pinned.length) return;
+    const tmp = pinned[idx]; pinned[idx] = pinned[newIdx]; pinned[newIdx] = tmp;
+    savePinned(pinned);
+    renderPinned();
+}
+
 function loadPreviews() {
     // stagger ทีละ 600ms เพื่อไม่ให้ API โดน rate-limit
     apps.forEach((app, i) => {
-        setTimeout(() => loadPreviewForApp(app), i * 600);
+        setTimeout(() => loadPreviewForApp(app, ''), i * 600);
     });
 }
 
