@@ -1326,21 +1326,20 @@ function isUselessImage(img) {
     }
 }
 
-// รายการ URL ของ screenshot services
 function getServiceUrls(url) {
     const enc = encodeURIComponent(url);
-    const t = Date.now(); // bust cache ของ service
     return [
-        // Google PageSpeed Insights thumbnail (น่าเชื่อถือมาก)
-        `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${enc}&strategy=desktop&fields=lighthouseResult.audits.final-screenshot`,
-        // thum.io แบบ allowFullPage
-        `https://image.thum.io/get/width/640/crop/400/${enc}?t=${t}`,
-        // wp.com mshots
-        `https://s0.wp.com/mshots/v1/${enc}?w=640&h=400&t=${t}`,
-        // screenshotmachine demo
-        `https://api.screenshotmachine.com/?key=demo&url=${enc}&dimension=1280x800&format=jpg`,
+        // Service 1: thum.io (ไม่ต้อง key, ฟรี)
+        `https://image.thum.io/get/width/640/crop/400/noanimate/${enc}`,
+        // Service 2: wp.com mshots (ไม่ต้อง key, ฟรี)
+        `https://s0.wp.com/mshots/v1/${enc}?w=640&h=400`,
+        // Service 3: thumbnail.ws (ไม่ต้อง key)
+        `https://api.thumbnail.ws/api/abc123/thumbnail/get?url=${enc}&width=640`,
+        // Service 4: site-shot.com (ไม่ต้อง key)
+        `https://api.site-shot.com/?url=${enc}&width=1280&height=800&format=jpg&screen_width=1280&screen_height=800`,
     ];
 }
+
 
 // โหลด preview ด้วย service chain + cache
 function loadPreviewForApp(app) {
