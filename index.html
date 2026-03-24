@@ -1234,64 +1234,88 @@ function buildCard(app, i) {
 }
 
 // ═══════════════════════════════════════
-// LOAD PREVIEWS (iframe screenshots)
+// PREVIEW CACHE — localStorage, TTL 30 วัน
 // ═══════════════════════════════════════
-// ใช้ screenshot service เพื่อดึงรูปหน้าเว็บ
-// เนื่องจาก iframe cross-origin ถูกบล็อก
-// จึงใช้ screenshot API แทน
-const screenshotServices = [
-    (url) => `https://api.screenshotmachine.com/?key=demo&url=${encodeURIComponent(url)}&dimension=1280x800&format=jpg&cacheLimit=0`,
-    (url) => `https://image.thum.io/get/width/640/crop/400/noanimate/${encodeURIComponent(url)}`,
-    (url) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=640&h=400`
-];
+const PREVIEW_CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
+const PREVIEW_CACHE_VER = 'pv1';
+
+function getPreviewCached(appId) {
+    try {
+        const raw = localStorage.getItem(`${PREVIEW_CACHE_VER}_${appId}`);
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        if (Date.now() - obj.ts > PREVIEW_CACHE_TTL) {
+            localStorage.removeItem(`${PREVIEW_CACHE_VER}_${appId}`);
+            return null;
+        }
+        return obj.url;
+    } catch(e) { return null; }
+}
+
+function setPreviewCached(appId, imageUrl) {
+    try {
+        localStorage.setItem(`${PREVIEW_CACHE_VER}_${appId}`, JSON.stringify({
+            url: imageUrl, ts: Date.now()
+        }));
+    } catch(e) {}
+}
+
+function showPreviewImg(previewEl, loadingEl, imgUrl) {
+    const img = new Image();
+    img.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:top;z-index:1;transition:opacity 0.4s ease;opacity:0;';
+    img.onload = () => {
+        if (loadingEl) loadingEl.style.display = 'none';
+        previewEl.appendChild(img);
+        requestAnimationFrame(() => { img.style.opacity = '1'; });
+    };
+    img.onerror = () => {
+        if (loadingEl) loadingEl.style.display = 'none';
+    };
+    img.src = imgUrl;
+}
+
+// ═══════════════════════════════════════
+// LOAD PREVIEWS — Microlink API + Cache
+// ═══════════════════════════════════════
+function loadPreviewForApp(app) {
+    const previewEl = document.getElementById(`preview-${app.id}`);
+    const loadingEl = document.getElementById(`prev-loading-${app.id}`);
+    if (!previewEl) return;
+
+    // ดึงจาก cache ก่อน (ถ้ายังไม่หมดอายุ 30 วัน)
+    const cached = getPreviewCached(app.id);
+    if (cached) {
+        showPreviewImg(previewEl, loadingEl, cached);
+        return;
+    }
+
+    // แสดง loading text แจ้งว่ากำลัง capture จริง
+    const txtEl = loadingEl ? loadingEl.querySelector('.preview-loading-txt') : null;
+    if (txtEl) txtEl.textContent = 'กำลัง Capture (~10 วิ)...';
+
+    // Microlink API: headless Chrome จริง รอ 10 วิให้หน้าเว็บโหลดครบ
+    const apiUrl = `https://api.microlink.io/?url=${encodeURIComponent(app.url)}&screenshot=true&meta=false&waitFor=10000`;
+
+    fetch(apiUrl, { cache: 'no-store' })
+        .then(r => r.json())
+        .then(data => {
+            const imgUrl = data && data.data && data.data.screenshot && data.data.screenshot.url;
+            if (imgUrl) {
+                setPreviewCached(app.id, imgUrl);
+                showPreviewImg(previewEl, loadingEl, imgUrl);
+            } else {
+                if (loadingEl) loadingEl.style.display = 'none';
+            }
+        })
+        .catch(() => {
+            if (loadingEl) loadingEl.style.display = 'none';
+        });
+}
 
 function loadPreviews() {
-    apps.forEach(app => {
-        const previewEl = document.getElementById(`preview-${app.id}`);
-        const loadingEl = document.getElementById(`prev-loading-${app.id}`);
-        if (!previewEl) return;
-
-        // ใช้ thum.io เป็น screenshot service
-        const imgUrl = `https://image.thum.io/get/width/640/crop/400/noanimate/${encodeURIComponent(app.url)}`;
-
-        const img = new Image();
-        img.style.cssText = `
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            object-position: top;
-            z-index: 1;
-            transition: opacity 0.4s ease;
-            opacity: 0;
-        `;
-
-        img.onload = () => {
-            if (loadingEl) loadingEl.style.display = 'none';
-            previewEl.appendChild(img);
-            // Fade in
-            requestAnimationFrame(() => {
-                img.style.opacity = '1';
-            });
-        };
-
-        img.onerror = () => {
-            // Fallback: try wp.com mshots
-            const img2 = new Image();
-            img2.style.cssText = img.style.cssText;
-            img2.onload = () => {
-                if (loadingEl) loadingEl.style.display = 'none';
-                previewEl.appendChild(img2);
-                requestAnimationFrame(() => { img2.style.opacity = '1'; });
-            };
-            img2.onerror = () => {
-                // Final fallback: hide loading, show color bg
-                if (loadingEl) loadingEl.style.display = 'none';
-            };
-            img2.src = `https://s0.wp.com/mshots/v1/${encodeURIComponent(app.url)}?w=640&h=400`;
-        };
-
-        img.src = imgUrl;
+    // stagger ทีละ 600ms เพื่อไม่ให้ API โดน rate-limit
+    apps.forEach((app, i) => {
+        setTimeout(() => loadPreviewForApp(app), i * 600);
     });
 }
 
