@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
     <link rel="manifest" href="./manifest.json">
 
+
     <meta name="theme-color" content="#050508">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -953,6 +954,148 @@
             .hero-title { font-size: 22px; }
         }
 
+        /* ── SIDEBAR ADD BTN ── */
+        .sb-add-btn { color: var(--accent-gold) !important; }
+
+        /* ── COMMUNITY SECTION ── */
+        .community-section { padding: 0 28px 40px; }
+        .comm-count-badge {
+            display: inline-flex; align-items: center;
+            background: rgba(245,166,35,0.12);
+            border: 1px solid rgba(245,166,35,0.25);
+            border-radius: 20px; padding: 1px 8px;
+            font-size: 11px; font-weight: 700;
+            color: var(--accent-gold); margin-left: 8px;
+        }
+        .community-card { border-color: rgba(16,185,129,0.2); }
+        .community-card:hover { border-color: rgba(16,185,129,0.45); }
+        .community-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.25);
+            border-radius: 5px; padding: 2px 7px;
+            font-size: 9px; font-weight: 700;
+            color: #10b981; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-bottom: 5px;
+        }
+
+        /* ── ADD APP MODAL ── */
+        .add-modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(10px);
+            z-index: 600;
+            display: none; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .add-modal-overlay.active { display: flex; }
+        .add-modal {
+            width: 100%; max-width: 460px;
+            background: rgba(9,9,21,0.98);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(245,166,35,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 60px rgba(245,166,35,0.05);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .add-modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid rgba(245,166,35,0.1);
+        }
+        .add-modal-title {
+            font-size: 15px; font-weight: 800;
+            color: var(--text-primary);
+        }
+        .add-modal-close {
+            width: 28px; height: 28px; border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent; color: var(--text-muted);
+            cursor: pointer; font-size: 13px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .add-modal-close:hover {
+            border-color: rgba(245,166,35,0.4); color: var(--accent-gold);
+        }
+        .add-modal-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+        .add-modal-footer {
+            display: flex; gap: 10px; padding: 14px 20px 18px;
+            border-top: 1px solid rgba(245,166,35,0.08);
+        }
+        .add-firebase-warn {
+            background: rgba(245,166,35,0.07);
+            border: 1px solid rgba(245,166,35,0.2);
+            border-radius: 8px; padding: 8px 12px;
+            font-size: 11px; color: var(--accent-gold);
+        }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-row { display: flex; gap: 12px; }
+        .form-label {
+            font-size: 11px; font-weight: 700;
+            color: var(--text-secondary); text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-input {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(245,166,35,0.12);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 13px; color: var(--text-primary);
+            font-family: inherit; outline: none;
+            transition: border-color 0.2s;
+            width: 100%; box-sizing: border-box;
+        }
+        .form-input:focus { border-color: rgba(245,166,35,0.4); }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-textarea { resize: none; }
+        .color-swatches {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .swatch {
+            width: 28px; height: 28px; border-radius: 8px;
+            cursor: pointer; transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .swatch:hover { transform: scale(1.15); }
+        .swatch.selected {
+            border-color: white;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+        .add-cancel-btn {
+            flex: 1; padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: transparent; color: var(--text-secondary);
+            font-size: 13px; font-weight: 600;
+            cursor: pointer; font-family: inherit; transition: all 0.2s;
+        }
+        .add-cancel-btn:hover {
+            border-color: rgba(245,166,35,0.3); color: var(--text-primary);
+        }
+        .add-submit-btn {
+            flex: 2; padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(245,166,35,0.4);
+            background: rgba(245,166,35,0.12);
+            color: var(--accent-gold);
+            font-size: 13px; font-weight: 700;
+            cursor: pointer; font-family: inherit; transition: all 0.2s;
+        }
+        .add-submit-btn:hover {
+            background: rgba(245,166,35,0.2);
+            border-color: rgba(245,166,35,0.6);
+            box-shadow: 0 0 20px rgba(245,166,35,0.1);
+        }
+        .add-submit-btn:disabled {
+            opacity: 0.5; cursor: not-allowed;
+        }
+        @media (max-width: 768px) {
+            .community-section { padding: 0 16px 30px; }
+        }
+
         /* ── ANIMATIONS ── */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(18px); }
@@ -1032,6 +1175,11 @@
         <button class="sb-btn" onclick="openApp(11)">✈️<span class="tip">Trip Planner</span></button>
         <button class="sb-btn" onclick="openApp(14)">🚗<span class="tip">Pickup</span></button>
 
+        <div class="sidebar-sep"></div>
+        <button class="sb-btn sb-add-btn" onclick="openAddModal()" title="เพิ่มเว็บใหม่">
+            ➕<span class="tip">เพิ่มเว็บใหม่</span>
+        </button>
+
         <div class="sidebar-spacer"></div>
         <div class="sb-time" id="sidebarTime"></div>
     </aside>
@@ -1050,6 +1198,7 @@
             </div>
             <div class="time-display" id="topbarTime"></div>
             <button class="tb-btn" onclick="openSearch()" title="ค้นหา">🔍</button>
+            <button class="tb-btn" onclick="openAddModal()" title="เพิ่มเว็บใหม่">➕</button>
             <button class="tb-btn" onclick="showHome()" title="หน้าหลัก">🏠</button>
         </div>
 
@@ -1118,6 +1267,12 @@
                     <!-- Rendered by JS -->
                 </div>
 
+                <!-- COMMUNITY APPS -->
+                <div class="community-section" id="communitySection" style="display:none">
+                    <div class="sec-label">🌐 Community Apps <span class="comm-count-badge" id="communityCount"></span></div>
+                    <div class="app-grid" id="communityGrid"></div>
+                </div>
+
             </div>
 
             <!-- IFRAME VIEW -->
@@ -1164,7 +1319,61 @@
     <button class="mn-btn" onclick="openSearch()">
         <span class="ic">🔍</span><span>ค้นหา</span>
     </button>
+    <button class="mn-btn" onclick="openAddModal()">
+        <span class="ic">➕</span><span>เพิ่มเว็บ</span>
+    </button>
 </nav>
+
+<!-- ADD APP MODAL -->
+<div class="add-modal-overlay" id="addModalOverlay" onclick="closeAddModal(event)">
+    <div class="add-modal">
+        <div class="add-modal-header">
+            <span class="add-modal-title">➕ เพิ่มเว็บใหม่</span>
+            <button class="add-modal-close" onclick="closeAddModalDirect()">✕</button>
+        </div>
+        <div class="add-modal-body">
+            <div class="form-group">
+                <label class="form-label">ชื่อแอป *</label>
+                <input class="form-input" id="addName" type="text" placeholder="เช่น My Portfolio Tracker" maxlength="40">
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL เว็บไซต์ *</label>
+                <input class="form-input" id="addUrl" type="url" placeholder="https://example.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">คำอธิบาย</label>
+                <textarea class="form-input form-textarea" id="addDesc" placeholder="บอกสั้น ๆ ว่าเว็บนี้ใช้ทำอะไร..." maxlength="120" rows="2"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex:1">
+                    <label class="form-label">ไอคอน (Emoji)</label>
+                    <input class="form-input" id="addIcon" type="text" placeholder="🌐" maxlength="4" value="🌐">
+                </div>
+                <div class="form-group" style="flex:1">
+                    <label class="form-label">Tag</label>
+                    <input class="form-input" id="addTag" type="text" placeholder="เช่น Finance, News" maxlength="20" value="Web">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">สีการ์ด</label>
+                <div class="color-swatches" id="colorSwatches">
+                    <div class="swatch selected" data-color="#4f8ef7" style="background:#4f8ef7"></div>
+                    <div class="swatch" data-color="#10b981" style="background:#10b981"></div>
+                    <div class="swatch" data-color="#f5a623" style="background:#f5a623"></div>
+                    <div class="swatch" data-color="#8b5cf6" style="background:#8b5cf6"></div>
+                    <div class="swatch" data-color="#ef4444" style="background:#ef4444"></div>
+                    <div class="swatch" data-color="#ec4899" style="background:#ec4899"></div>
+                    <div class="swatch" data-color="#14b8a6" style="background:#14b8a6"></div>
+                    <div class="swatch" data-color="#f97316" style="background:#f97316"></div>
+                </div>
+            </div>
+        </div>
+        <div class="add-modal-footer">
+            <button class="add-cancel-btn" onclick="closeAddModalDirect()">ยกเลิก</button>
+            <button class="add-submit-btn" id="addSubmitBtn" onclick="submitNewApp()">➕ เพิ่มแอปนี้</button>
+        </div>
+    </div>
+</div>
 
 <script>
 // ═══════════════════════════════════════
@@ -1783,11 +1992,144 @@ function spawnParticle() {
 setInterval(spawnParticle, 3500);
 
 // ═══════════════════════════════════════
+// COMMUNITY APPS — LOCAL STORAGE
+// ═══════════════════════════════════════
+let _selectedColor = '#4f8ef7';
+
+function initSheets() {
+    try {
+        const list = JSON.parse(localStorage.getItem('comm_apps_cache') || '[]');
+        renderCommunitySection(list);
+    } catch(e) { renderCommunitySection([]); }
+}
+
+// ═══════════════════════════════════════
+// COMMUNITY APPS — RENDER
+// ═══════════════════════════════════════
+function renderCommunitySection(list) {
+    const sec = document.getElementById('communitySection');
+    const grid = document.getElementById('communityGrid');
+    const countEl = document.getElementById('communityCount');
+    if (!sec || !grid) return;
+    if (!list.length) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    if (countEl) countEl.textContent = list.length;
+    grid.innerHTML = list.map((app, i) => buildCommunityCard(app, i)).join('');
+}
+
+function buildCommunityCard(app, i) {
+    const color = app.color || '#4f8ef7';
+    const icon = app.icon || '🌐';
+    const safeUrl = (app.url || '').replace(/'/g, '%27');
+    return `
+    <div class="app-card community-card fade-up" onclick="window.open('${safeUrl}','_blank')"
+         style="animation-delay:${i * 0.05}s">
+        <div class="app-preview" style="background:${color}22; display:flex; align-items:center; justify-content:center;">
+            <div class="preview-big-icon" style="opacity:0.5; font-size:48px">${icon}</div>
+        </div>
+        <div class="app-body">
+            <div class="community-badge">🌐 Community</div>
+            <div class="app-header-row">
+                <div class="app-icon-sm" style="background:${color}">${icon}</div>
+                <div style="flex:1;min-width:0">
+                    <div class="app-name">${escHtml(app.name)}</div>
+                </div>
+            </div>
+            <div class="app-desc">${escHtml(app.desc || '')}</div>
+            <div class="app-footer">
+                <span class="app-tag" style="background:${color}22; color:${color};">${escHtml(app.tag || 'Web')}</span>
+                <span class="app-open">เปิด →</span>
+            </div>
+        </div>
+    </div>`;
+}
+
+function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════
+// ADD APP MODAL
+// ═══════════════════════════════════════
+function openAddModal() {
+    document.getElementById('addModalOverlay').classList.add('active');
+    document.getElementById('addName').value = '';
+    document.getElementById('addUrl').value = '';
+    document.getElementById('addDesc').value = '';
+    document.getElementById('addIcon').value = '🌐';
+    document.getElementById('addTag').value = 'Web';
+    document.getElementById('addSubmitBtn').disabled = false;
+    document.getElementById('addSubmitBtn').textContent = '➕ เพิ่มแอปนี้';
+    // reset swatch
+    _selectedColor = '#4f8ef7';
+    document.querySelectorAll('.swatch').forEach(s => {
+        s.classList.toggle('selected', s.dataset.color === _selectedColor);
+    });
+    // init swatch click
+    document.querySelectorAll('.swatch').forEach(s => {
+        s.onclick = () => {
+            _selectedColor = s.dataset.color;
+            document.querySelectorAll('.swatch').forEach(x => x.classList.remove('selected'));
+            s.classList.add('selected');
+        };
+    });
+    setTimeout(() => document.getElementById('addName').focus(), 100);
+}
+
+function closeAddModal(e) {
+    if (e.target === document.getElementById('addModalOverlay')) closeAddModalDirect();
+}
+function closeAddModalDirect() {
+    document.getElementById('addModalOverlay').classList.remove('active');
+}
+
+async function submitNewApp() {
+    const name = document.getElementById('addName').value.trim();
+    const url  = document.getElementById('addUrl').value.trim();
+    const desc = document.getElementById('addDesc').value.trim();
+    const icon = document.getElementById('addIcon').value.trim() || '🌐';
+    const tag  = document.getElementById('addTag').value.trim() || 'Web';
+
+    if (!name) { alert('กรุณาใส่ชื่อแอป'); document.getElementById('addName').focus(); return; }
+    if (!url || !url.startsWith('http')) { alert('กรุณาใส่ URL ที่ถูกต้อง (ขึ้นต้นด้วย https://)'); document.getElementById('addUrl').focus(); return; }
+
+    const btn = document.getElementById('addSubmitBtn');
+    btn.disabled = true;
+    btn.textContent = 'กำลังบันทึก...';
+
+    const newApp = { name, url, desc, icon, tag, color: _selectedColor, createdAt: new Date().toISOString() };
+    saveAppLocal(newApp);
+
+    closeAddModalDirect();
+    btn.disabled = false;
+    btn.textContent = '➕ เพิ่มแอปนี้';
+}
+
+function saveAppLocal(newApp) {
+    try {
+        const list = JSON.parse(localStorage.getItem('comm_apps_cache') || '[]');
+        newApp.firestoreId = 'local_' + Date.now();
+        list.unshift(newApp);
+        localStorage.setItem('comm_apps_cache', JSON.stringify(list));
+        renderCommunitySection(list);
+    } catch(e) {}
+}
+
+// Escape key closes modal
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeSearchDirect();
+        closeAddModalDirect();
+    }
+});
+
+// ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
 renderPinned();
 renderRecent();
 renderCategories();
+initSheets();
 
 // PWA
 if ('serviceWorker' in navigator) {
