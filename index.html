@@ -21,21 +21,22 @@
 
     <style>
         :root {
-            --bg-primary: #050508;
-            --bg-secondary: #0a0a12;
-            --bg-card: #0d0d1a;
+            --bg-primary: #06060d;
+            --bg-secondary: #09091500;
+            --bg-card: rgba(255,255,255,0.028);
+            --accent-gold: #f5a623;
+            --accent-amber: #fbbf24;
             --accent-blue: #4f8ef7;
             --accent-purple: #8b5cf6;
             --accent-cyan: #06b6d4;
             --accent-green: #10b981;
-            --accent-gold: #f59e0b;
             --accent-pink: #ec4899;
             --accent-orange: #f97316;
-            --text-primary: #f0f0ff;
-            --text-secondary: #8888aa;
-            --text-muted: #555577;
-            --border: rgba(255,255,255,0.06);
-            --border-hover: rgba(79,142,247,0.4);
+            --text-primary: #f5f0e8;
+            --text-secondary: #9a92a8;
+            --text-muted: #55556a;
+            --border: rgba(245,166,35,0.09);
+            --border-hover: rgba(245,166,35,0.45);
             --sidebar-w: 68px;
         }
 
@@ -57,7 +58,7 @@
             content: '';
             position: absolute;
             width: 900px; height: 900px;
-            background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
             top: -300px; left: -300px;
             animation: bgFloat1 22s ease-in-out infinite;
         }
@@ -65,7 +66,7 @@
             content: '';
             position: absolute;
             width: 700px; height: 700px;
-            background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
             bottom: -200px; right: -200px;
             animation: bgFloat2 28s ease-in-out infinite;
         }
@@ -80,8 +81,8 @@
         .grid-overlay {
             position: fixed; inset: 0; z-index: 0; pointer-events: none;
             background-image:
-                linear-gradient(rgba(79,142,247,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(79,142,247,0.025) 1px, transparent 1px);
+                linear-gradient(rgba(245,166,35,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245,166,35,0.025) 1px, transparent 1px);
             background-size: 64px 64px;
         }
 
@@ -95,8 +96,8 @@
         .sidebar {
             width: var(--sidebar-w);
             height: 100vh;
-            background: rgba(8,8,16,0.97);
-            border-right: 1px solid var(--border);
+            background: rgba(6,6,13,0.97);
+            border-right: 1px solid rgba(245,166,35,0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -139,8 +140,8 @@
             flex-shrink: 0;
             position: relative;
         }
-        .sb-btn:hover { background: rgba(79,142,247,0.12); color: var(--accent-blue); }
-        .sb-btn.active { background: rgba(79,142,247,0.18); color: var(--accent-blue); }
+        .sb-btn:hover { background: rgba(245,166,35,0.1); color: var(--accent-gold); }
+        .sb-btn.active { background: rgba(245,166,35,0.16); color: var(--accent-gold); }
 
         .sb-btn .tip {
             position: absolute;
@@ -190,8 +191,8 @@
         /* ── TOPBAR ── */
         .topbar {
             height: 56px;
-            background: rgba(8,8,16,0.92);
-            border-bottom: 1px solid var(--border);
+            background: rgba(6,6,13,0.95);
+            border-bottom: 1px solid rgba(245,166,35,0.1);
             display: flex;
             align-items: center;
             padding: 0 18px;
@@ -203,15 +204,15 @@
             font-size: 14px; font-weight: 700;
             color: var(--text-primary); flex: 1;
         }
-        .topbar-title span { color: var(--accent-blue); }
+        .topbar-title span { color: var(--accent-gold); }
 
         .topbar-badge {
             display: flex; align-items: center; gap: 5px;
-            background: rgba(16,185,129,0.1);
-            border: 1px solid rgba(16,185,129,0.2);
+            background: rgba(245,166,35,0.08);
+            border: 1px solid rgba(245,166,35,0.2);
             border-radius: 20px;
             padding: 4px 10px;
-            font-size: 11px; color: var(--accent-green);
+            font-size: 11px; color: var(--accent-gold);
         }
         .status-dot {
             width: 6px; height: 6px;
@@ -237,8 +238,8 @@
         }
         .tb-btn:hover {
             border-color: var(--border-hover);
-            color: var(--accent-blue);
-            background: rgba(79,142,247,0.08);
+            color: var(--accent-gold);
+            background: rgba(245,166,35,0.07);
         }
 
         .time-display {
@@ -274,18 +275,18 @@
         }
         .hero-badge {
             display: inline-flex; align-items: center; gap: 7px;
-            background: rgba(79,142,247,0.08);
-            border: 1px solid rgba(79,142,247,0.2);
+            background: rgba(245,166,35,0.08);
+            border: 1px solid rgba(245,166,35,0.25);
             border-radius: 20px;
             padding: 5px 14px;
-            font-size: 11px; color: var(--accent-blue);
+            font-size: 11px; color: var(--accent-gold);
             margin-bottom: 16px; letter-spacing: 0.4px;
         }
         .hero-title {
             font-size: clamp(26px, 4.5vw, 48px);
             font-weight: 900; line-height: 1.1;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #fff 0%, rgba(79,142,247,0.9) 45%, rgba(139,92,246,0.9) 100%);
+            background: linear-gradient(135deg, #fff 0%, rgba(245,166,35,0.95) 40%, rgba(251,191,36,0.85) 70%, rgba(245,166,35,0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -304,20 +305,23 @@
             padding: 0 28px 28px;
         }
         .stat-card {
-            background: rgba(13,13,26,0.85);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.025);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(245,166,35,0.1);
             border-radius: 14px;
             padding: 14px 10px;
             text-align: center;
             transition: all 0.3s;
         }
         .stat-card:hover {
-            border-color: rgba(79,142,247,0.3);
+            border-color: rgba(245,166,35,0.3);
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245,166,35,0.08);
         }
         .stat-val {
             font-size: 26px; font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -348,8 +352,10 @@
         }
         .q-btn {
             display: flex; align-items: center; gap: 6px;
-            background: rgba(13,13,26,0.85);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(245,166,35,0.1);
             border-radius: 10px;
             padding: 7px 13px;
             font-size: 12px; color: var(--text-secondary);
@@ -357,10 +363,11 @@
             font-family: inherit;
         }
         .q-btn:hover {
-            border-color: rgba(79,142,247,0.35);
-            color: var(--text-primary);
-            background: rgba(79,142,247,0.06);
+            border-color: rgba(245,166,35,0.4);
+            color: var(--accent-gold);
+            background: rgba(245,166,35,0.06);
             transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(245,166,35,0.1);
         }
 
         /* ── CATEGORY SECTIONS ── */
@@ -407,8 +414,10 @@
         }
 
         .app-card {
-            background: rgba(11,11,22,0.9);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.028);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(245,166,35,0.08);
             border-radius: 18px;
             overflow: hidden;
             cursor: pointer;
@@ -419,8 +428,8 @@
         }
         .app-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(79,142,247,0.35);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,142,247,0.08);
+            border-color: rgba(245,166,35,0.38);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.55), 0 0 0 1px rgba(245,166,35,0.1), 0 0 40px rgba(245,166,35,0.05);
         }
 
         /* Preview Screenshot Area */
@@ -530,7 +539,7 @@
             display: flex; align-items: center;
             justify-content: space-between;
             padding-top: 8px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(245,166,35,0.08);
         }
         .app-tag {
             display: inline-flex; align-items: center; gap: 4px;
@@ -542,10 +551,74 @@
         .app-open {
             display: flex; align-items: center; gap: 5px;
             font-size: 11px; font-weight: 600;
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             transition: gap 0.2s;
         }
         .app-card:hover .app-open { gap: 9px; }
+
+        /* ── PIN BUTTON ── */
+        .pin-btn {
+            position: absolute;
+            top: 8px; right: 8px;
+            width: 26px; height: 26px;
+            border-radius: 7px;
+            border: 1px solid rgba(245,166,35,0.2);
+            background: rgba(6,6,13,0.75);
+            backdrop-filter: blur(8px);
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+            opacity: 0;
+        }
+        .app-card:hover .pin-btn { opacity: 1; }
+        .pin-btn.pinned {
+            opacity: 1;
+            background: rgba(245,166,35,0.15);
+            border-color: rgba(245,166,35,0.45);
+            color: var(--accent-gold);
+        }
+        .pin-btn:hover {
+            background: rgba(245,166,35,0.2);
+            border-color: rgba(245,166,35,0.6);
+            color: var(--accent-gold);
+            transform: scale(1.1);
+        }
+
+        /* ── PINNED / RECENT SECTIONS ── */
+        .pinned-section, .recent-section {
+            padding: 0 28px 24px;
+        }
+        .recent-row {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+        }
+        .recent-row::-webkit-scrollbar { height: 3px; }
+        .recent-row::-webkit-scrollbar-track { background: transparent; }
+        .recent-row::-webkit-scrollbar-thumb {
+            background: rgba(245,166,35,0.2); border-radius: 2px;
+        }
+        .recent-chip {
+            display: flex; align-items: center; gap: 7px;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(245,166,35,0.1);
+            border-radius: 10px;
+            padding: 7px 12px;
+            font-size: 12px; color: var(--text-secondary);
+            cursor: pointer; transition: all 0.2s;
+            white-space: nowrap; flex-shrink: 0;
+        }
+        .recent-chip:hover {
+            border-color: rgba(245,166,35,0.35);
+            color: var(--text-primary);
+            background: rgba(245,166,35,0.05);
+        }
+        .recent-chip .rc-time {
+            font-size: 9px; color: var(--text-muted);
+            margin-left: 3px;
+        }
 
         /* ── IFRAME VIEW ── */
         .iframe-view {
@@ -557,8 +630,8 @@
 
         .iframe-toolbar {
             height: 46px;
-            background: rgba(8,8,16,0.97);
-            border-bottom: 1px solid var(--border);
+            background: rgba(6,6,13,0.97);
+            border-bottom: 1px solid rgba(245,166,35,0.1);
             display: flex; align-items: center;
             padding: 0 14px; gap: 8px;
             flex-shrink: 0;
@@ -574,9 +647,9 @@
             transition: all 0.2s; font-family: inherit;
         }
         .iframe-back:hover {
-            background: rgba(79,142,247,0.1);
-            border-color: rgba(79,142,247,0.3);
-            color: var(--accent-blue);
+            background: rgba(245,166,35,0.08);
+            border-color: rgba(245,166,35,0.3);
+            color: var(--accent-gold);
         }
         .iframe-url-bar {
             flex: 1;
@@ -602,9 +675,9 @@
             transition: all 0.2s; text-decoration: none;
         }
         .iframe-act-btn:hover {
-            border-color: rgba(79,142,247,0.3);
-            color: var(--accent-blue);
-            background: rgba(79,142,247,0.08);
+            border-color: rgba(245,166,35,0.3);
+            color: var(--accent-gold);
+            background: rgba(245,166,35,0.07);
         }
         .iframe-container {
             flex: 1; position: relative; overflow: hidden;
@@ -643,11 +716,12 @@
         .search-overlay.active { display: flex; }
         .search-box {
             width: 100%; max-width: 580px;
-            background: rgba(11,11,22,0.99);
-            border: 1px solid rgba(79,142,247,0.3);
+            background: rgba(8,8,16,0.97);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(245,166,35,0.25);
             border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.75), 0 0 60px rgba(245,166,35,0.04);
             margin: 0 20px;
         }
         .search-input-wrap {
@@ -671,7 +745,7 @@
             border-radius: 11px; cursor: pointer;
             transition: background 0.15s;
         }
-        .search-item:hover { background: rgba(79,142,247,0.08); }
+        .search-item:hover { background: rgba(245,166,35,0.06); }
         .search-item-icon {
             width: 34px; height: 34px;
             border-radius: 9px;
@@ -686,8 +760,8 @@
             display: none;
             position: fixed; bottom: 0; left: 0; right: 0;
             height: 62px;
-            background: rgba(8,8,16,0.98);
-            border-top: 1px solid var(--border);
+            background: rgba(6,6,13,0.98);
+            border-top: 1px solid rgba(245,166,35,0.1);
             backdrop-filter: blur(20px);
             z-index: 200;
             padding: 0 6px;
@@ -705,13 +779,13 @@
             font-size: 9px; font-family: inherit;
         }
         .mn-btn .ic { font-size: 19px; }
-        .mn-btn.active { color: var(--accent-blue); }
+        .mn-btn.active { color: var(--accent-gold); }
 
         /* ── PARTICLES ── */
         .particle {
             position: fixed;
             width: 2px; height: 2px;
-            background: rgba(79,142,247,0.4);
+            background: rgba(245,166,35,0.35);
             border-radius: 50%;
             pointer-events: none;
             animation: particleFloat linear infinite;
@@ -884,6 +958,18 @@
                         <button class="q-btn" onclick="openApp(6)">📰 Thai News</button>
                         <button class="q-btn" onclick="openApp(0)">&#128202; Dashboard</button>
                     </div>
+                </div>
+
+                <!-- PINNED APPS -->
+                <div class="pinned-section" id="pinnedSection" style="display:none">
+                    <div class="sec-label">📌 Pinned Apps</div>
+                    <div class="app-grid" id="pinnedGrid"></div>
+                </div>
+
+                <!-- RECENTLY OPENED -->
+                <div class="recent-section" id="recentSection" style="display:none">
+                    <div class="sec-label">🕐 Recently Opened</div>
+                    <div class="recent-row" id="recentRow"></div>
                 </div>
 
                 <!-- CATEGORY SECTIONS -->
@@ -1189,9 +1275,15 @@ function renderCategories() {
 // BUILD APP CARD (with preview iframe)
 // ═══════════════════════════════════════
 function buildCard(app, i) {
+    const pinned = getPinned().includes(app.id);
     return `
     <div class="app-card fade-up" onclick="openApp(${app.id})"
          style="animation-delay:${i * 0.06}s">
+
+        <!-- Pin Button -->
+        <button class="pin-btn ${pinned ? 'pinned' : ''}"
+            onclick="togglePin(${app.id}, event)"
+            title="${pinned ? 'ถอน Pin' : 'Pin แอปนี้'}">${pinned ? '📌' : '📍'}</button>
 
         <!-- Preview Area -->
         <div class="app-preview" id="preview-${app.id}">
@@ -1229,6 +1321,78 @@ function buildCard(app, i) {
         </div>
     </div>
     `;
+}
+
+// ═══════════════════════════════════════
+// PIN SYSTEM
+// ═══════════════════════════════════════
+function getPinned() {
+    try { return JSON.parse(localStorage.getItem('pinned_apps') || '[]'); } catch(e) { return []; }
+}
+function savePinned(arr) {
+    try { localStorage.setItem('pinned_apps', JSON.stringify(arr)); } catch(e) {}
+}
+function togglePin(appId, e) {
+    e.stopPropagation();
+    let pinned = getPinned();
+    if (pinned.includes(appId)) {
+        pinned = pinned.filter(id => id !== appId);
+    } else {
+        pinned.unshift(appId);
+    }
+    savePinned(pinned);
+    renderPinned();
+    renderCategories();
+}
+function renderPinned() {
+    const pinnedIds = getPinned();
+    const sec = document.getElementById('pinnedSection');
+    const grid = document.getElementById('pinnedGrid');
+    if (!sec || !grid) return;
+    if (!pinnedIds.length) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    grid.innerHTML = pinnedIds.map((id, i) => {
+        const app = apps.find(a => a.id === id);
+        return app ? buildCard(app, i) : '';
+    }).join('');
+    setTimeout(() => pinnedIds.forEach(id => loadPreviewForApp(apps.find(a => a.id === id))), 100);
+}
+
+// ═══════════════════════════════════════
+// RECENTLY OPENED
+// ═══════════════════════════════════════
+function getRecent() {
+    try { return JSON.parse(localStorage.getItem('recent_apps') || '[]'); } catch(e) { return []; }
+}
+function addRecent(appId) {
+    let recent = getRecent().filter(r => r.id !== appId);
+    recent.unshift({ id: appId, ts: Date.now() });
+    if (recent.length > 8) recent = recent.slice(0, 8);
+    try { localStorage.setItem('recent_apps', JSON.stringify(recent)); } catch(e) {}
+}
+function fmtAgo(ts) {
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60) return 'เมื่อกี้';
+    if (s < 3600) return Math.floor(s/60) + ' นาทีที่แล้ว';
+    if (s < 86400) return Math.floor(s/3600) + ' ชม.ที่แล้ว';
+    return Math.floor(s/86400) + ' วันที่แล้ว';
+}
+function renderRecent() {
+    const recent = getRecent();
+    const sec = document.getElementById('recentSection');
+    const row = document.getElementById('recentRow');
+    if (!sec || !row) return;
+    if (!recent.length) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    row.innerHTML = recent.map(r => {
+        const app = apps.find(a => a.id === r.id);
+        if (!app) return '';
+        return `<div class="recent-chip" onclick="openApp(${app.id})">
+            <span>${app.icon}</span>
+            <span>${app.name}</span>
+            <span class="rc-time">${fmtAgo(r.ts)}</span>
+        </div>`;
+    }).join('');
 }
 
 // ═══════════════════════════════════════
@@ -1323,6 +1487,8 @@ function loadPreviews() {
 function openApp(id) {
     const app = apps.find(a => a.id === id);
     if (!app) return;
+    addRecent(id);
+    renderRecent();
 
     document.getElementById('homeView').classList.remove('active');
     const iframeView = document.getElementById('iframeView');
@@ -1452,6 +1618,8 @@ setInterval(spawnParticle, 3500);
 // ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
+renderPinned();
+renderRecent();
 renderCategories();
 
 // PWA
