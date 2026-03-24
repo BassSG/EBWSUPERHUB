@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ AI Command Center - SuperApp</title>
+    <title>⚡ AI Command Center</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- โลโก้เว็บ / favicon -->
     <link rel="icon" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
-
-    <!-- สำหรับ iPhone / iPad -->
     <link rel="apple-touch-icon" href="https://s15-kling.klingai.com/kimg/EMXN1y8qdgoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpcc3BlY2lhbC1lZmZlY3Qvb3V0cHV0LzU3MjY4YTU0LTAxNmYtNDc0Yy05NTM4LTAzZjc1N2U5N2IxNC80MTQyMzE0NzUyMDMzOTY0NTEwL3RlbXAwamVrdC5wbmc:720x435.webp?x-kcdn-pid=112372">
-
-    <!-- PWA -->
     <link rel="manifest" href="./manifest.json">
 
     <meta name="theme-color" content="#050508">
@@ -22,7 +17,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="AI Command Center">
-    <meta name="application-name" content="AI Command Center">
     <meta name="description" content="AI Command Center - ศูนย์รวม AI Tools ทุกอย่างในที่เดียว">
 
     <style>
@@ -30,7 +24,6 @@
             --bg-primary: #050508;
             --bg-secondary: #0a0a12;
             --bg-card: #0d0d1a;
-            --bg-card-hover: #12122a;
             --accent-blue: #4f8ef7;
             --accent-purple: #8b5cf6;
             --accent-cyan: #06b6d4;
@@ -43,188 +36,150 @@
             --text-muted: #555577;
             --border: rgba(255,255,255,0.06);
             --border-hover: rgba(79,142,247,0.4);
-            --glow-blue: rgba(79,142,247,0.15);
-            --glow-purple: rgba(139,92,246,0.15);
+            --sidebar-w: 68px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             height: 100%;
             overflow: hidden;
-            font-family: 'Inter', 'Space Grotesk', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
         }
 
-        /* ========== ANIMATED BACKGROUND ========== */
+        /* ── BACKGROUND ── */
         .bg-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
+            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
         }
-
         .bg-canvas::before {
             content: '';
             position: absolute;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(79,142,247,0.08) 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
-            animation: floatBg1 20s ease-in-out infinite;
+            width: 900px; height: 900px;
+            background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%);
+            top: -300px; left: -300px;
+            animation: bgFloat1 22s ease-in-out infinite;
         }
-
         .bg-canvas::after {
             content: '';
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
-            bottom: -100px;
-            right: -100px;
-            animation: floatBg2 25s ease-in-out infinite;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%);
+            bottom: -200px; right: -200px;
+            animation: bgFloat2 28s ease-in-out infinite;
         }
-
-        @keyframes floatBg1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(100px, 50px) scale(1.1); }
-            66% { transform: translate(-50px, 100px) scale(0.9); }
+        @keyframes bgFloat1 {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(80px, 60px); }
         }
-
-        @keyframes floatBg2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-80px, -60px) scale(1.15); }
-            66% { transform: translate(60px, -80px) scale(0.95); }
+        @keyframes bgFloat2 {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(-60px,-80px); }
         }
-
-        /* Grid lines */
         .grid-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image: 
-                linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(79,142,247,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79,142,247,0.025) 1px, transparent 1px);
+            background-size: 64px 64px;
         }
 
-        /* ========== LAYOUT ========== */
+        /* ── LAYOUT ── */
         .app-wrapper {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            height: 100vh;
-            width: 100vw;
+            position: relative; z-index: 1;
+            display: flex; height: 100vh; width: 100vw;
         }
 
-        /* ========== SIDEBAR ========== */
+        /* ── SIDEBAR ── */
         .sidebar {
-            width: 72px;
+            width: var(--sidebar-w);
             height: 100vh;
-            background: rgba(10,10,18,0.95);
+            background: rgba(8,8,16,0.97);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 16px 0;
-            gap: 4px;
+            padding: 14px 0 12px;
+            gap: 2px;
             flex-shrink: 0;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
             z-index: 100;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
-        .sidebar.expanded {
-            width: 220px;
-        }
-
         .sidebar-logo {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            width: 42px; height: 42px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-bottom: 12px;
-            flex-shrink: 0;
-            box-shadow: 0 0 20px rgba(79,142,247,0.4);
+            overflow: hidden;
+            margin-bottom: 10px;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .sidebar-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .sidebar-divider {
-            width: 40px;
-            height: 1px;
-            background: var(--border);
-            margin: 8px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 18px rgba(79,142,247,0.35);
             flex-shrink: 0;
         }
+        .sidebar-logo:hover { transform: scale(1.06); }
+        .sidebar-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-        .sidebar-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: none;
+        .sidebar-sep {
+            width: 36px; height: 1px;
+            background: var(--border);
+            margin: 6px 0; flex-shrink: 0;
+        }
+
+        .sb-btn {
+            width: 42px; height: 42px;
+            border-radius: 11px; border: none;
             background: transparent;
             color: var(--text-muted);
-            font-size: 18px;
+            font-size: 17px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
             flex-shrink: 0;
             position: relative;
         }
+        .sb-btn:hover { background: rgba(79,142,247,0.12); color: var(--accent-blue); }
+        .sb-btn.active { background: rgba(79,142,247,0.18); color: var(--accent-blue); }
 
-        .sidebar-btn:hover {
-            background: rgba(79,142,247,0.1);
-            color: var(--accent-blue);
-        }
-
-        .sidebar-btn.active {
-            background: rgba(79,142,247,0.15);
-            color: var(--accent-blue);
-        }
-
-        .sidebar-btn .tooltip {
+        .sb-btn .tip {
             position: absolute;
-            left: 56px;
-            background: rgba(10,10,20,0.95);
+            left: 52px;
+            background: rgba(8,8,18,0.97);
             border: 1px solid var(--border);
             color: var(--text-primary);
-            padding: 6px 10px;
+            padding: 5px 10px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 11px;
             white-space: nowrap;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.15s;
             z-index: 999;
         }
+        .sb-btn:hover .tip { opacity: 1; }
 
-        .sidebar-btn:hover .tooltip {
-            opacity: 1;
+        .sb-cat-label {
+            font-size: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin: 4px 0 2px;
+            opacity: 0.6;
         }
 
-        .sidebar-spacer {
-            flex: 1;
+        .sidebar-spacer { flex: 1; }
+
+        .sb-time {
+            font-size: 9px;
+            color: var(--text-muted);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            padding: 6px 0;
+            letter-spacing: 1px;
         }
 
-        /* ========== MAIN CONTENT ========== */
+        /* ── MAIN ── */
         .main-content {
             flex: 1;
             display: flex;
@@ -232,791 +187,571 @@
             overflow: hidden;
         }
 
-        /* ========== TOP BAR ========== */
+        /* ── TOPBAR ── */
         .topbar {
-            height: 60px;
-            background: rgba(10,10,18,0.9);
+            height: 56px;
+            background: rgba(8,8,16,0.92);
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-            padding: 0 20px;
-            gap: 12px;
+            padding: 0 18px;
+            gap: 10px;
             flex-shrink: 0;
             backdrop-filter: blur(20px);
         }
-
         .topbar-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            flex: 1;
+            font-size: 14px; font-weight: 700;
+            color: var(--text-primary); flex: 1;
         }
-
-        .topbar-title span {
-            color: var(--accent-blue);
-        }
+        .topbar-title span { color: var(--accent-blue); }
 
         .topbar-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            display: flex; align-items: center; gap: 5px;
             background: rgba(16,185,129,0.1);
             border: 1px solid rgba(16,185,129,0.2);
             border-radius: 20px;
             padding: 4px 10px;
-            font-size: 11px;
-            color: var(--accent-green);
+            font-size: 11px; color: var(--accent-green);
         }
-
         .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 6px; height: 6px;
             border-radius: 50%;
             background: var(--accent-green);
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.4; transform:scale(0.7); }
         }
 
-        .topbar-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+        .tb-btn {
+            width: 34px; height: 34px;
+            border-radius: 9px;
             border: 1px solid var(--border);
             background: rgba(255,255,255,0.03);
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
         }
-
-        .topbar-btn:hover {
+        .tb-btn:hover {
             border-color: var(--border-hover);
             color: var(--accent-blue);
             background: rgba(79,142,247,0.08);
         }
 
-        /* ========== CONTENT AREA ========== */
-        .content-area {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
+        .time-display {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
         }
 
-        /* ========== HOME DASHBOARD ========== */
+        /* ── CONTENT AREA ── */
+        .content-area { flex: 1; overflow: hidden; position: relative; }
+
+        /* ── HOME VIEW ── */
         .home-view {
             height: 100%;
             overflow-y: auto;
-            padding: 24px;
+            padding: 0;
             display: none;
         }
-
-        .home-view.active {
-            display: block;
-        }
-
-        .home-view::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .home-view::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
+        .home-view.active { display: block; }
+        .home-view::-webkit-scrollbar { width: 4px; }
+        .home-view::-webkit-scrollbar-track { background: transparent; }
         .home-view::-webkit-scrollbar-thumb {
-            background: rgba(79,142,247,0.3);
+            background: rgba(79,142,247,0.25);
             border-radius: 2px;
         }
 
-        /* Hero Section */
-        .hero-section {
+        /* ── HERO ── */
+        .hero {
+            padding: 36px 28px 28px;
             text-align: center;
-            padding: 40px 20px 32px;
             position: relative;
         }
-
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-flex; align-items: center; gap: 7px;
             background: rgba(79,142,247,0.08);
             border: 1px solid rgba(79,142,247,0.2);
             border-radius: 20px;
-            padding: 6px 16px;
-            font-size: 12px;
-            color: var(--accent-blue);
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
+            padding: 5px 14px;
+            font-size: 11px; color: var(--accent-blue);
+            margin-bottom: 16px; letter-spacing: 0.4px;
         }
-
         .hero-title {
-            font-size: clamp(28px, 5vw, 52px);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #fff 0%, rgba(79,142,247,0.9) 50%, rgba(139,92,246,0.9) 100%);
+            font-size: clamp(26px, 4.5vw, 48px);
+            font-weight: 900; line-height: 1.1;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, rgba(79,142,247,0.9) 45%, rgba(139,92,246,0.9) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .hero-subtitle {
-            font-size: 15px;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto 32px;
-            line-height: 1.6;
+        .hero-sub {
+            font-size: 14px; color: var(--text-secondary);
+            max-width: 480px; margin: 0 auto 28px;
+            line-height: 1.65;
         }
 
-        /* Stats Row */
+        /* ── STATS ── */
         .stats-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 32px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 28px 28px;
         }
-
         .stat-card {
-            background: rgba(13,13,26,0.8);
+            background: rgba(13,13,26,0.85);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 14px;
+            padding: 14px 10px;
             text-align: center;
             transition: all 0.3s;
         }
-
         .stat-card:hover {
             border-color: rgba(79,142,247,0.3);
-            background: rgba(79,142,247,0.05);
             transform: translateY(-2px);
         }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 800;
+        .stat-val {
+            font-size: 26px; font-weight: 800;
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .stat-lbl {
+            font-size: 10px; color: var(--text-muted);
+            margin-top: 3px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        /* Section Title */
-        .section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* ── QUICK LAUNCH ── */
+        .quick-section {
+            padding: 0 28px 24px;
         }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
+        .sec-label {
+            font-size: 11px; font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .sec-label::after {
+            content: ''; flex: 1; height: 1px;
             background: var(--border);
         }
+        .quick-row {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .q-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(13,13,26,0.85);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 7px 13px;
+            font-size: 12px; color: var(--text-secondary);
+            cursor: pointer; transition: all 0.2s;
+            font-family: inherit;
+        }
+        .q-btn:hover {
+            border-color: rgba(79,142,247,0.35);
+            color: var(--text-primary);
+            background: rgba(79,142,247,0.06);
+            transform: translateY(-1px);
+        }
 
-        /* App Grid */
+        /* ── CATEGORY SECTIONS ── */
+        .categories-wrap {
+            padding: 0 28px 40px;
+        }
+
+        .cat-section {
+            margin-bottom: 36px;
+        }
+
+        .cat-header {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .cat-icon-badge {
+            width: 34px; height: 34px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .cat-title-wrap { flex: 1; }
+        .cat-title {
+            font-size: 15px; font-weight: 700;
+            color: var(--text-primary);
+        }
+        .cat-subtitle {
+            font-size: 11px; color: var(--text-muted);
+            margin-top: 1px;
+        }
+        .cat-count {
+            font-size: 11px; font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        /* ── APP CARDS (with preview) ── */
         .app-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .app-card {
-            background: rgba(13,13,26,0.8);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .app-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.02));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .app-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--border-hover);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(79,142,247,0.1);
-        }
-
-        .app-card:hover::before {
-            opacity: 1;
-        }
-
-        .app-card-glow {
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        .app-card:hover .app-card-glow {
-            opacity: 1;
-        }
-
-        .app-card-header {
-            display: flex;
-            align-items: flex-start;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 14px;
         }
 
-        .app-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+        .app-card {
+            background: rgba(11,11,22,0.9);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(79,142,247,0.35);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,142,247,0.08);
+        }
+
+        /* Preview Screenshot Area */
+        .app-preview {
+            width: 100%;
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+            background: #080810;
+            flex-shrink: 0;
+        }
+
+        .app-preview-iframe {
+            width: 200%;
+            height: 200%;
+            border: none;
+            transform: scale(0.5);
+            transform-origin: top left;
+            pointer-events: none;
+            position: absolute;
+            top: 0; left: 0;
+        }
+
+        .app-preview-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                transparent 60%,
+                rgba(11,11,22,0.7) 85%,
+                rgba(11,11,22,1) 100%
+            );
+            z-index: 2;
+        }
+
+        .app-preview-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 1;
+        }
+        .preview-spinner {
+            width: 28px; height: 28px;
+            border: 2px solid rgba(79,142,247,0.15);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .preview-loading-txt {
+            font-size: 10px; color: var(--text-muted);
+        }
+
+        /* Preview color bar (fallback) */
+        .app-preview-color {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-            position: relative;
+            z-index: 1;
+        }
+        .preview-big-icon {
+            font-size: 52px;
+            opacity: 0.25;
+            filter: blur(1px);
         }
 
-        .app-icon::after {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: 15px;
-            background: inherit;
-            filter: blur(8px);
-            opacity: 0.4;
-            z-index: -1;
-        }
-
-        .app-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .app-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .app-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .app-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .app-card-footer {
+        /* Card Body */
+        .app-body {
+            padding: 14px 16px 16px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .app-header-row {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .app-icon-sm {
+            width: 38px; height: 38px;
+            border-radius: 11px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .app-name {
+            font-size: 13px; font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .app-desc {
+            font-size: 11px; color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .app-footer {
+            display: flex; align-items: center;
             justify-content: space-between;
             padding-top: 8px;
             border-top: 1px solid var(--border);
         }
-
-        .app-open-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 600;
+        .app-tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .app-open {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 11px; font-weight: 600;
             color: var(--accent-blue);
             transition: gap 0.2s;
         }
+        .app-card:hover .app-open { gap: 9px; }
 
-        .app-card:hover .app-open-btn {
-            gap: 10px;
-        }
-
-        /* ========== IFRAME VIEW ========== */
+        /* ── IFRAME VIEW ── */
         .iframe-view {
             height: 100%;
             display: none;
             flex-direction: column;
         }
-
-        .iframe-view.active {
-            display: flex;
-        }
+        .iframe-view.active { display: flex; }
 
         .iframe-toolbar {
-            height: 48px;
-            background: rgba(10,10,18,0.95);
+            height: 46px;
+            background: rgba(8,8,16,0.97);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 10px;
+            display: flex; align-items: center;
+            padding: 0 14px; gap: 8px;
             flex-shrink: 0;
         }
-
-        .iframe-back-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .iframe-back {
+            display: flex; align-items: center; gap: 5px;
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 5px 11px;
             color: var(--text-secondary);
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
+            font-size: 12px; cursor: pointer;
+            transition: all 0.2s; font-family: inherit;
         }
-
-        .iframe-back-btn:hover {
+        .iframe-back:hover {
             background: rgba(79,142,247,0.1);
             border-color: rgba(79,142,247,0.3);
             color: var(--accent-blue);
         }
-
         .iframe-url-bar {
             flex: 1;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 6px 12px;
-            font-size: 12px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 5px 11px;
+            font-size: 11px; color: var(--text-muted);
+            display: flex; align-items: center; gap: 7px;
             overflow: hidden;
         }
-
-        .iframe-url-text {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .iframe-url-txt {
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-
-        .iframe-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .iframe-action-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+        .iframe-act-btn {
+            width: 30px; height: 30px;
+            border-radius: 7px;
             border: 1px solid var(--border);
             background: rgba(255,255,255,0.03);
             color: var(--text-secondary);
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            text-decoration: none;
+            font-size: 13px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; text-decoration: none;
         }
-
-        .iframe-action-btn:hover {
+        .iframe-act-btn:hover {
             border-color: rgba(79,142,247,0.3);
             color: var(--accent-blue);
             background: rgba(79,142,247,0.08);
         }
-
         .iframe-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
+            flex: 1; position: relative; overflow: hidden;
         }
-
         .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            width: 100%; height: 100%; border: none;
         }
-
         .iframe-loading {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             background: var(--bg-primary);
-            gap: 16px;
-            z-index: 10;
+            gap: 14px; z-index: 10;
         }
-
-        .iframe-loading.hidden {
-            display: none;
-        }
-
+        .iframe-loading.hidden { display: none; }
         .loading-spinner {
-            width: 48px;
-            height: 48px;
+            width: 44px; height: 44px;
             border: 3px solid rgba(79,142,247,0.1);
             border-top-color: var(--accent-blue);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
+        .loading-txt { font-size: 12px; color: var(--text-secondary); }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* ========== QUICK LAUNCH ========== */
-        .quick-launch {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-
-        .quick-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(13,13,26,0.8);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px 14px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .quick-btn:hover {
-            border-color: rgba(79,142,247,0.3);
-            color: var(--text-primary);
-            background: rgba(79,142,247,0.05);
-        }
-
-        /* ========== MOBILE BOTTOM NAV ========== */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background: rgba(10,10,18,0.98);
-            border-top: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-            z-index: 200;
-            padding: 0 8px;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-        .mobile-nav-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            padding: 8px 12px;
-            border-radius: 12px;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 10px;
-        }
-
-        .mobile-nav-btn .icon {
-            font-size: 20px;
-        }
-
-        .mobile-nav-btn.active {
-            color: var(--accent-blue);
-        }
-
-        /* ========== SEARCH OVERLAY ========== */
+        /* ── SEARCH OVERLAY ── */
         .search-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.82);
+            backdrop-filter: blur(12px);
             z-index: 500;
             display: none;
             align-items: flex-start;
             justify-content: center;
             padding-top: 80px;
         }
-
-        .search-overlay.active {
-            display: flex;
-        }
-
+        .search-overlay.active { display: flex; }
         .search-box {
-            width: 100%;
-            max-width: 600px;
-            background: rgba(13,13,26,0.98);
+            width: 100%; max-width: 580px;
+            background: rgba(11,11,22,0.99);
             border: 1px solid rgba(79,142,247,0.3);
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,142,247,0.1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7);
             margin: 0 20px;
         }
-
         .search-input-wrap {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 18px;
             border-bottom: 1px solid var(--border);
         }
-
         .search-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            color: var(--text-primary);
+            flex: 1; background: transparent;
+            border: none; outline: none;
+            font-size: 15px; color: var(--text-primary);
             font-family: inherit;
         }
-
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-
+        .search-input::placeholder { color: var(--text-muted); }
         .search-results {
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 8px;
+            max-height: 380px; overflow-y: auto; padding: 8px;
         }
+        .search-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px;
+            border-radius: 11px; cursor: pointer;
+            transition: background 0.15s;
+        }
+        .search-item:hover { background: rgba(79,142,247,0.08); }
+        .search-item-icon {
+            width: 34px; height: 34px;
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+        .search-item-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .search-item-desc { font-size: 11px; color: var(--text-muted); }
 
-        .search-result-item {
-            display: flex;
+        /* ── MOBILE NAV ── */
+        .mobile-nav {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            height: 62px;
+            background: rgba(8,8,16,0.98);
+            border-top: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            z-index: 200;
+            padding: 0 6px;
             align-items: center;
-            gap: 12px;
-            padding: 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
+            justify-content: space-around;
         }
-
-        .search-result-item:hover {
-            background: rgba(79,142,247,0.08);
-        }
-
-        .search-result-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .search-result-info {
-            flex: 1;
-        }
-
-        .search-result-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .search-result-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
-
-            .mobile-nav {
-                display: flex;
-            }
-
-            .main-content {
-                padding-bottom: 64px;
-            }
-
-            .home-view {
-                padding: 16px;
-            }
-
-            .hero-section {
-                padding: 24px 16px 20px;
-            }
-
-            .app-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .topbar {
-                padding: 0 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* ========== ANIMATIONS ========== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-
-        .fade-in-up:nth-child(1) { animation-delay: 0.05s; }
-        .fade-in-up:nth-child(2) { animation-delay: 0.1s; }
-        .fade-in-up:nth-child(3) { animation-delay: 0.15s; }
-        .fade-in-up:nth-child(4) { animation-delay: 0.2s; }
-        .fade-in-up:nth-child(5) { animation-delay: 0.25s; }
-        .fade-in-up:nth-child(6) { animation-delay: 0.3s; }
-        .fade-in-up:nth-child(7) { animation-delay: 0.35s; }
-        .fade-in-up:nth-child(8) { animation-delay: 0.4s; }
-        .fade-in-up:nth-child(9) { animation-delay: 0.45s; }
-        .fade-in-up:nth-child(10) { animation-delay: 0.5s; }
-        .fade-in-up:nth-child(11) { animation-delay: 0.55s; }
-        .fade-in-up:nth-child(12) { animation-delay: 0.6s; }
-        .fade-in-up:nth-child(13) { animation-delay: 0.65s; }
-        .fade-in-up:nth-child(14) { animation-delay: 0.7s; }
-        .fade-in-up:nth-child(15) { animation-delay: 0.75s; }
-
-        /* Notification dot */
-        .notif-dot {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            background: var(--accent-pink);
-            border-radius: 50%;
-            border: 2px solid var(--bg-secondary);
-        }
-
-        /* Category tabs */
-        .cat-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .cat-tabs::-webkit-scrollbar { display: none; }
-
-        .cat-tab {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
+        .mn-btn {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 2px;
+            padding: 7px 10px;
+            border-radius: 10px; border: none;
             background: transparent;
             color: var(--text-muted);
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-            font-family: inherit;
+            cursor: pointer; transition: all 0.2s;
+            font-size: 9px; font-family: inherit;
         }
+        .mn-btn .ic { font-size: 19px; }
+        .mn-btn.active { color: var(--accent-blue); }
 
-        .cat-tab.active, .cat-tab:hover {
-            background: rgba(79,142,247,0.1);
-            border-color: rgba(79,142,247,0.3);
-            color: var(--accent-blue);
-        }
-
-        /* Floating particles */
+        /* ── PARTICLES ── */
         .particle {
             position: fixed;
-            width: 2px;
-            height: 2px;
+            width: 2px; height: 2px;
             background: rgba(79,142,247,0.4);
             border-radius: 50%;
             pointer-events: none;
             animation: particleFloat linear infinite;
         }
-
         @keyframes particleFloat {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            0% { transform: translateY(100vh); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+            100% { transform: translateY(-100px) translateX(40px); opacity: 0; }
         }
 
-        /* Time display */
-        .time-display {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-variant-numeric: tabular-nums;
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .mobile-nav { display: flex; }
+            .main-content { padding-bottom: 62px; }
+            .hero { padding: 20px 16px 20px; }
+            .stats-row { grid-template-columns: repeat(2,1fr); padding: 0 16px 20px; }
+            .quick-section { padding: 0 16px 20px; }
+            .categories-wrap { padding: 0 16px 40px; }
+            .app-grid { grid-template-columns: 1fr; }
         }
+        @media (max-width: 480px) {
+            .stats-row { grid-template-columns: repeat(2,1fr); }
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.45s ease forwards; opacity: 0; }
+        .fade-up:nth-child(1) { animation-delay: 0.04s; }
+        .fade-up:nth-child(2) { animation-delay: 0.08s; }
+        .fade-up:nth-child(3) { animation-delay: 0.12s; }
+        .fade-up:nth-child(4) { animation-delay: 0.16s; }
+        .fade-up:nth-child(5) { animation-delay: 0.20s; }
+        .fade-up:nth-child(6) { animation-delay: 0.24s; }
+        .fade-up:nth-child(7) { animation-delay: 0.28s; }
+        .fade-up:nth-child(8) { animation-delay: 0.32s; }
     </style>
 </head>
 <body>
@@ -1024,12 +759,16 @@
 <div class="bg-canvas"></div>
 <div class="grid-overlay"></div>
 
+<!-- SEARCH OVERLAY -->
 <div class="search-overlay" id="searchOverlay" onclick="closeSearch(event)">
     <div class="search-box">
         <div class="search-input-wrap">
-            <span style="font-size:18px; color:var(--text-muted)">🔍</span>
-            <input type="text" class="search-input" id="searchInput" placeholder="ค้นหาแอป..." oninput="filterSearch(this.value)">
-            <span style="font-size:12px; color:var(--text-muted); cursor:pointer" onclick="closeSearchDirect()">ESC</span>
+            <span style="font-size:17px;color:var(--text-muted)">🔍</span>
+            <input type="text" class="search-input" id="searchInput"
+                placeholder="ค้นหาแอป... (Ctrl+K)"
+                oninput="filterSearch(this.value)">
+            <span style="font-size:11px;color:var(--text-muted);cursor:pointer"
+                onclick="closeSearchDirect()">ESC</span>
         </div>
         <div class="search-results" id="searchResults"></div>
     </div>
@@ -1037,89 +776,55 @@
 
 <div class="app-wrapper">
 
+    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo" onclick="showHome()" title="Home">
-            <img src="https://s15-kling.klingai.com/kimg/EMXN1y8qdwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpdc3BlY2lhbC1lZmZlY3Qvb3V0cHV0L2QzODViNzA1LTEyYzQtNGJkNy04YzBiLWJlNTA2ZjUxOTQ4MC8tMzA3NzM2NjA3Mzk4MTc3MTU1OS90ZW1wMTIzbDQucG5n:720x435.webp?x-kcdn-pid=112372" style="width:36px; height:36px; object-fit:cover; border-radius:8px;">
+            <img src="https://s15-kling.klingai.com/kimg/EMXN1y8qdwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBpdc3BlY2lhbC1lZmZlY3Qvb3V0cHV0L2QzODViNzA1LTEyYzQtNGJkNy04YzBiLWJlNTA2ZjUxOTQ4MC8tMzA3NzM2NjA3Mzk4MTc3MTU1OS90ZW1wMTIzbDQucG5n:720x435.webp?x-kcdn-pid=112372" alt="logo">
         </div>
 
-        <div class="sidebar-divider"></div>
+        <div class="sidebar-sep"></div>
 
-        <button class="sidebar-btn active" id="sb-home" onclick="showHome()" title="หน้าหลัก">
-            🏠
-            <span class="tooltip">หน้าหลัก</span>
+        <button class="sb-btn active" id="sb-home" onclick="showHome()">
+            🏠<span class="tip">หน้าหลัก</span>
         </button>
-
-        <button class="sidebar-btn" onclick="openSearch()" title="ค้นหา">
-            🔍
-            <span class="tooltip">ค้นหา</span>
+        <button class="sb-btn" onclick="openSearch()">
+            🔍<span class="tip">ค้นหา (Ctrl+K)</span>
         </button>
 
-        <div class="sidebar-divider"></div>
+        <div class="sidebar-sep"></div>
+        <div class="sb-cat-label">📈</div>
 
-        <button class="sidebar-btn" onclick="openApp(0)" title="TAProAlert">
-            📊
-            <span class="tooltip">TAProAlert</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(1)" title="SnD Forex">
-            💱
-            <span class="tooltip">SnD Forex</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(2)" title="SnD Analysis">
-            📈
-            <span class="tooltip">SnD Analysis</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(3)" title="AlphaSense">
-            🧠
-            <span class="tooltip">AlphaSense</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(4)" title="Ocean Ten News">
-            🌊
-            <span class="tooltip">Ocean Ten News</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(5)" title="XAU Alert">
-            🥇
-            <span class="tooltip">XAU Alert</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(6)" title="Thai Daily News">
-            📰
-            <span class="tooltip">Thai Daily News</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(7)" title="XAUUSD News">
-            💰
-            <span class="tooltip">XAUUSD News</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(9)" title="Google Sheet">
-            📋
-            <span class="tooltip">Google Sheet</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(10)" title="App Script">
-            ⚙️
-            <span class="tooltip">App Script</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(11)" title="Trip Planner">
-            ✈️
-            <span class="tooltip">Trip Planner</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(12)" title="Investment">
-            💎
-            <span class="tooltip">Investment</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(13)" title="GaNesh27">
-            🕉️
-            <span class="tooltip">GaNesh27</span>
-        </button>
-        <button class="sidebar-btn" onclick="openApp(14)" title="Pickup">
-            🚗
-            <span class="tooltip">Pickup</span>
-        </button>
+        <button class="sb-btn" onclick="openApp(0)">📊<span class="tip">TAProAlert</span></button>
+        <button class="sb-btn" onclick="openApp(1)">💱<span class="tip">SnD Forex</span></button>
+        <button class="sb-btn" onclick="openApp(2)">📈<span class="tip">SnD Analysis</span></button>
+        <button class="sb-btn" onclick="openApp(3)">🧠<span class="tip">AlphaSense</span></button>
+        <button class="sb-btn" onclick="openApp(5)">🥇<span class="tip">XAU Alert</span></button>
+        <button class="sb-btn" onclick="openApp(12)">💎<span class="tip">Investment</span></button>
+
+        <div class="sidebar-sep"></div>
+        <div class="sb-cat-label">📰</div>
+
+        <button class="sb-btn" onclick="openApp(4)">🌊<span class="tip">Ocean Ten News</span></button>
+        <button class="sb-btn" onclick="openApp(6)">📰<span class="tip">Thai Daily News</span></button>
+        <button class="sb-btn" onclick="openApp(7)">💰<span class="tip">XAUUSD News</span></button>
+
+        <div class="sidebar-sep"></div>
+        <div class="sb-cat-label">🛠️</div>
+
+        <button class="sb-btn" onclick="openApp(9)">📋<span class="tip">Google Sheet</span></button>
+        <button class="sb-btn" onclick="openApp(10)">⚙️<span class="tip">App Script</span></button>
+        <button class="sb-btn" onclick="openApp(13)">🕉️<span class="tip">GaNesh27</span></button>
+        <button class="sb-btn" onclick="openApp(11)">✈️<span class="tip">Trip Planner</span></button>
+        <button class="sb-btn" onclick="openApp(14)">🚗<span class="tip">Pickup</span></button>
 
         <div class="sidebar-spacer"></div>
-
-        <div class="time-display" id="sidebarTime" style="writing-mode: vertical-rl; text-orientation: mixed; padding: 8px 0;"></div>
+        <div class="sb-time" id="sidebarTime"></div>
     </aside>
 
+    <!-- MAIN -->
     <main class="main-content">
 
+        <!-- TOPBAR -->
         <div class="topbar">
             <div class="topbar-title">
                 <span>⚡ AI</span> Command Center
@@ -1129,89 +834,87 @@
                 AI Online
             </div>
             <div class="time-display" id="topbarTime"></div>
-            <button class="topbar-btn" onclick="openSearch()" title="ค้นหา">🔍</button>
-            <button class="topbar-btn" onclick="showHome()" title="หน้าหลัก">🏠</button>
+            <button class="tb-btn" onclick="openSearch()" title="ค้นหา">🔍</button>
+            <button class="tb-btn" onclick="showHome()" title="หน้าหลัก">🏠</button>
         </div>
 
         <div class="content-area">
 
+            <!-- HOME VIEW -->
             <div class="home-view active" id="homeView">
 
-                <div class="hero-section">
-                    <div class="hero-badge">
-                        ✨ Powered by Artificial Intelligence
-                    </div>
-
+                <!-- HERO -->
+                <div class="hero">
+                    <div class="hero-badge">✨ Powered by Artificial Intelligence</div>
                     <h1 class="hero-title">AI Command Center</h1>
-                    <p class="hero-subtitle">
+                    <p class="hero-sub">
                         ศูนย์รวม AI Tools ทุกอย่างในที่เดียว<br>
                         วิเคราะห์ตลาด · ข่าวสาร · วางแผน · ลงทุน
                     </p>
                 </div>
 
+                <!-- STATS -->
                 <div class="stats-row">
-                    <div class="stat-card fade-in-up">
-                        <div class="stat-value">15</div>
-                        <div class="stat-label">AI Apps</div>
+                    <div class="stat-card fade-up">
+                        <div class="stat-val">15</div>
+                        <div class="stat-lbl">AI Apps</div>
                     </div>
-                    <div class="stat-card fade-in-up">
-                        <div class="stat-value">24/7</div>
-                        <div class="stat-label">Online</div>
+                    <div class="stat-card fade-up">
+                        <div class="stat-val">24/7</div>
+                        <div class="stat-lbl">Online</div>
                     </div>
-                    <div class="stat-card fade-in-up">
-                        <div class="stat-value">AI</div>
-                        <div class="stat-label">Powered</div>
+                    <div class="stat-card fade-up">
+                        <div class="stat-val">AI</div>
+                        <div class="stat-lbl">Powered</div>
                     </div>
-                    <div class="stat-card fade-in-up">
-                        <div class="stat-value">∞</div>
-                        <div class="stat-label">Insights</div>
+                    <div class="stat-card fade-up">
+                        <div class="stat-val">∞</div>
+                        <div class="stat-lbl">Insights</div>
                     </div>
                 </div>
 
-                <div class="section-title">⚡ Quick Launch</div>
-                <div class="quick-launch">
-                    <button class="quick-btn" onclick="openApp(0)">📊 TAProAlert</button>
-                    <button class="quick-btn" onclick="openApp(1)">💱 SnD Forex</button>
-                    <button class="quick-btn" onclick="openApp(3)">🧠 AlphaSense</button>
-                    <button class="quick-btn" onclick="openApp(5)">🥇 XAU Alert</button>
-                    <button class="quick-btn" onclick="openApp(12)">💎 Investment</button>
-                    <button class="quick-btn" onclick="openApp(11)">✈️ Trip Planner</button>
-                </div>
-
-                <div class="cat-tabs">
-                    <button class="cat-tab active" onclick="filterCat('all', this)">🌐 ทั้งหมด</button>
-                    <button class="cat-tab" onclick="filterCat('trading', this)">📈 Trading</button>
-                    <button class="cat-tab" onclick="filterCat('news', this)">📰 ข่าวสาร</button>
-                    <button class="cat-tab" onclick="filterCat('tools', this)">🛠️ Tools</button>
-                    <button class="cat-tab" onclick="filterCat('lifestyle', this)">🌟 Lifestyle</button>
-                </div>
-
-                <div class="section-title">🚀 All Applications</div>
-                <div class="app-grid" id="appGrid">
+                <!-- QUICK LAUNCH -->
+                <div class="quick-section">
+                    <div class="sec-label">⚡ Quick Launch</div>
+                    <div class="quick-row">
+                        <button class="q-btn" onclick="openApp(0)">📊 TAProAlert</button>
+                        <button class="q-btn" onclick="openApp(1)">💱 SnD Forex</button>
+                        <button class="q-btn" onclick="openApp(3)">🧠 AlphaSense</button>
+                        <button class="q-btn" onclick="openApp(5)">🥇 XAU Alert</button>
+                        <button class="q-btn" onclick="openApp(12)">💎 Investment</button>
+                        <button class="q-btn" onclick="openApp(11)">✈️ Trip Planner</button>
+                        <button class="q-btn" onclick="openApp(4)">🌊 Ocean Ten</button>
+                        <button class="q-btn" onclick="openApp(6)">📰 Thai News</button>
                     </div>
+                </div>
+
+                <!-- CATEGORY SECTIONS -->
+                <div class="categories-wrap" id="categoriesWrap">
+                    <!-- Rendered by JS -->
+                </div>
 
             </div>
 
+            <!-- IFRAME VIEW -->
             <div class="iframe-view" id="iframeView">
                 <div class="iframe-toolbar">
-                    <button class="iframe-back-btn" onclick="showHome()">
-                        ← กลับหน้าหลัก
-                    </button>
+                    <button class="iframe-back" onclick="showHome()">← กลับหน้าหลัก</button>
                     <div class="iframe-url-bar">
-                        <span style="font-size:14px">🔒</span>
-                        <span class="iframe-url-text" id="iframeUrlText">-</span>
+                        <span style="font-size:13px">🔒</span>
+                        <span class="iframe-url-txt" id="iframeUrlTxt">-</span>
                     </div>
-                    <div class="iframe-actions">
-                        <button class="iframe-action-btn" onclick="reloadIframe()" title="รีโหลด">🔄</button>
-                        <a class="iframe-action-btn" id="openExternal" href="#" target="_blank" title="เปิดในแท็บใหม่">↗️</a>
-                    </div>
+                    <button class="iframe-act-btn" onclick="reloadIframe()" title="รีโหลด">🔄</button>
+                    <a class="iframe-act-btn" id="openExternal" href="#" target="_blank" title="เปิดแท็บใหม่">↗️</a>
                 </div>
                 <div class="iframe-container">
                     <div class="iframe-loading" id="iframeLoading">
                         <div class="loading-spinner"></div>
-                        <div class="loading-text">กำลังโหลด AI Module...</div>
+                        <div class="loading-txt">กำลังโหลด AI Module...</div>
                     </div>
-                    <iframe id="mainIframe" src="" onload="iframeLoaded()" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+                    <iframe id="mainIframe" src=""
+                        onload="iframeLoaded()"
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation">
+                    </iframe>
                 </div>
             </div>
 
@@ -1219,31 +922,29 @@
     </main>
 </div>
 
+<!-- MOBILE NAV -->
 <nav class="mobile-nav" id="mobileNav">
-    <button class="mobile-nav-btn active" id="mn-home" onclick="showHome()">
-        <span class="icon">🏠</span>
-        <span>หน้าหลัก</span>
+    <button class="mn-btn active" id="mn-home" onclick="showHome()">
+        <span class="ic">🏠</span><span>หน้าหลัก</span>
     </button>
-    <button class="mobile-nav-btn" onclick="openApp(0)">
-        <span class="icon">📊</span>
-        <span>Trading</span>
+    <button class="mn-btn" onclick="openApp(0)">
+        <span class="ic">📊</span><span>Trading</span>
     </button>
-    <button class="mobile-nav-btn" onclick="openApp(4)">
-        <span class="icon">📰</span>
-        <span>ข่าว</span>
+    <button class="mn-btn" onclick="openApp(4)">
+        <span class="ic">📰</span><span>ข่าว</span>
     </button>
-    <button class="mobile-nav-btn" onclick="openApp(12)">
-        <span class="icon">💎</span>
-        <span>ลงทุน</span>
+    <button class="mn-btn" onclick="openApp(12)">
+        <span class="ic">💎</span><span>ลงทุน</span>
     </button>
-    <button class="mobile-nav-btn" onclick="openSearch()">
-        <span class="icon">🔍</span>
-        <span>ค้นหา</span>
+    <button class="mn-btn" onclick="openSearch()">
+        <span class="ic">🔍</span><span>ค้นหา</span>
     </button>
 </nav>
 
 <script>
-// ========== APP DATA ==========
+// ═══════════════════════════════════════
+// APP DATA
+// ═══════════════════════════════════════
 const apps = [
     {
         id: 0,
@@ -1252,9 +953,7 @@ const apps = [
         icon: "📊",
         color: "linear-gradient(135deg, #4f8ef7, #1a56db)",
         glow: "rgba(79,142,247,0.2)",
-        tag: "Trading",
-        tagColor: "rgba(79,142,247,0.15)",
-        tagText: "#4f8ef7",
+        tag: "Trading", tagColor: "rgba(79,142,247,0.15)", tagText: "#4f8ef7",
         url: "https://basssg.github.io/TAProAlert-Dashboard/",
         cat: "trading"
     },
@@ -1265,9 +964,7 @@ const apps = [
         icon: "💱",
         color: "linear-gradient(135deg, #10b981, #059669)",
         glow: "rgba(16,185,129,0.2)",
-        tag: "Forex",
-        tagColor: "rgba(16,185,129,0.15)",
-        tagText: "#10b981",
+        tag: "Forex", tagColor: "rgba(16,185,129,0.15)", tagText: "#10b981",
         url: "https://basssg.github.io/SnDForex/",
         cat: "trading"
     },
@@ -1278,9 +975,7 @@ const apps = [
         icon: "📈",
         color: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
         glow: "rgba(139,92,246,0.2)",
-        tag: "Analysis",
-        tagColor: "rgba(139,92,246,0.15)",
-        tagText: "#8b5cf6",
+        tag: "Analysis", tagColor: "rgba(139,92,246,0.15)", tagText: "#8b5cf6",
         url: "https://basssg.github.io/SnD_Analysis/",
         cat: "trading"
     },
@@ -1291,9 +986,7 @@ const apps = [
         icon: "🧠",
         color: "linear-gradient(135deg, #ec4899, #be185d)",
         glow: "rgba(236,72,153,0.2)",
-        tag: "AI Alpha",
-        tagColor: "rgba(236,72,153,0.15)",
-        tagText: "#ec4899",
+        tag: "AI Alpha", tagColor: "rgba(236,72,153,0.15)", tagText: "#ec4899",
         url: "https://basssg.github.io/AlphaSense-Analysis-Webapp/",
         cat: "trading"
     },
@@ -1304,9 +997,7 @@ const apps = [
         icon: "🌊",
         color: "linear-gradient(135deg, #06b6d4, #0284c7)",
         glow: "rgba(6,182,212,0.2)",
-        tag: "News",
-        tagColor: "rgba(6,182,212,0.15)",
-        tagText: "#06b6d4",
+        tag: "News", tagColor: "rgba(6,182,212,0.15)", tagText: "#06b6d4",
         url: "https://basssg.github.io/ocean-ten-news/",
         cat: "news"
     },
@@ -1317,9 +1008,7 @@ const apps = [
         icon: "🥇",
         color: "linear-gradient(135deg, #f59e0b, #d97706)",
         glow: "rgba(245,158,11,0.2)",
-        tag: "Gold",
-        tagColor: "rgba(245,158,11,0.15)",
-        tagText: "#f59e0b",
+        tag: "Gold", tagColor: "rgba(245,158,11,0.15)", tagText: "#f59e0b",
         url: "https://basssg.github.io/ocean-ten-news/chart-xau-alert.html",
         cat: "trading"
     },
@@ -1330,9 +1019,7 @@ const apps = [
         icon: "📰",
         color: "linear-gradient(135deg, #f97316, #ea580c)",
         glow: "rgba(249,115,22,0.2)",
-        tag: "ข่าวไทย",
-        tagColor: "rgba(249,115,22,0.15)",
-        tagText: "#f97316",
+        tag: "ข่าวไทย", tagColor: "rgba(249,115,22,0.15)", tagText: "#f97316",
         url: "https://basssg.github.io/Thai_Daily_News/",
         cat: "news"
     },
@@ -1343,9 +1030,7 @@ const apps = [
         icon: "💰",
         color: "linear-gradient(135deg, #eab308, #ca8a04)",
         glow: "rgba(234,179,8,0.2)",
-        tag: "Gold News",
-        tagColor: "rgba(234,179,8,0.15)",
-        tagText: "#eab308",
+        tag: "Gold News", tagColor: "rgba(234,179,8,0.15)", tagText: "#eab308",
         url: "https://basssg.github.io/XAUUSD-NEWS/",
         cat: "news"
     },
@@ -1356,9 +1041,7 @@ const apps = [
         icon: "🌐",
         color: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
         glow: "rgba(59,130,246,0.2)",
-        tag: "Portal",
-        tagColor: "rgba(59,130,246,0.15)",
-        tagText: "#3b82f6",
+        tag: "Portal", tagColor: "rgba(59,130,246,0.15)", tagText: "#3b82f6",
         url: "https://basssg.github.io/ocean-ten-news/",
         cat: "news"
     },
@@ -1369,9 +1052,7 @@ const apps = [
         icon: "📋",
         color: "linear-gradient(135deg, #22c55e, #16a34a)",
         glow: "rgba(34,197,94,0.2)",
-        tag: "Data",
-        tagColor: "rgba(34,197,94,0.15)",
-        tagText: "#22c55e",
+        tag: "Data", tagColor: "rgba(34,197,94,0.15)", tagText: "#22c55e",
         url: "https://basssg.github.io/GoogleSheet/",
         cat: "tools"
     },
@@ -1382,9 +1063,7 @@ const apps = [
         icon: "⚙️",
         color: "linear-gradient(135deg, #64748b, #475569)",
         glow: "rgba(100,116,139,0.2)",
-        tag: "Automation",
-        tagColor: "rgba(100,116,139,0.15)",
-        tagText: "#94a3b8",
+        tag: "Automation", tagColor: "rgba(100,116,139,0.15)", tagText: "#94a3b8",
         url: "https://basssg.github.io/GoogleAppScript/",
         cat: "tools"
     },
@@ -1395,9 +1074,7 @@ const apps = [
         icon: "✈️",
         color: "linear-gradient(135deg, #06b6d4, #0891b2)",
         glow: "rgba(6,182,212,0.2)",
-        tag: "Travel",
-        tagColor: "rgba(6,182,212,0.15)",
-        tagText: "#06b6d4",
+        tag: "Travel", tagColor: "rgba(6,182,212,0.15)", tagText: "#06b6d4",
         url: "https://basssg.github.io/TripPlanner/",
         cat: "lifestyle"
     },
@@ -1408,9 +1085,7 @@ const apps = [
         icon: "💎",
         color: "linear-gradient(135deg, #a855f7, #7c3aed)",
         glow: "rgba(168,85,247,0.2)",
-        tag: "Investment",
-        tagColor: "rgba(168,85,247,0.15)",
-        tagText: "#a855f7",
+        tag: "Investment", tagColor: "rgba(168,85,247,0.15)", tagText: "#a855f7",
         url: "https://basssg.github.io/Investment/",
         cat: "trading"
     },
@@ -1421,9 +1096,7 @@ const apps = [
         icon: "🕉️",
         color: "linear-gradient(135deg, #f97316, #dc2626)",
         glow: "rgba(249,115,22,0.2)",
-        tag: "Special",
-        tagColor: "rgba(249,115,22,0.15)",
-        tagText: "#f97316",
+        tag: "Special", tagColor: "rgba(249,115,22,0.15)", tagText: "#f97316",
         url: "https://basssg.github.io/GaNesh27/",
         cat: "tools"
     },
@@ -1434,209 +1107,337 @@ const apps = [
         icon: "🚗",
         color: "linear-gradient(135deg, #14b8a6, #0d9488)",
         glow: "rgba(20,184,166,0.2)",
-        tag: "Service",
-        tagColor: "rgba(20,184,166,0.15)",
-        tagText: "#14b8a6",
+        tag: "Service", tagColor: "rgba(20,184,166,0.15)", tagText: "#14b8a6",
         url: "https://basssg.github.io/Pickup/",
         cat: "lifestyle"
     }
 ];
 
-// ========== RENDER APP GRID ==========
-function renderApps(filter = 'all') {
-    const grid = document.getElementById('appGrid');
-    const filtered = filter === 'all' ? apps : apps.filter(a => a.cat === filter);
-    
-    grid.innerHTML = filtered.map((app, i) => `
-        <div class="app-card fade-in-up" onclick="openApp(${app.id})" style="--delay:${i * 0.05}s">
-            <div class="app-card-glow" style="background: radial-gradient(circle, ${app.glow} 0%, transparent 70%)"></div>
-            <div class="app-card-header">
-                <div class="app-icon" style="background: ${app.color}">
-                    ${app.icon}
+// ═══════════════════════════════════════
+// CATEGORY CONFIG
+// ═══════════════════════════════════════
+const categories = [
+    {
+        key: "trading",
+        title: "Trading & Investment",
+        subtitle: "วิเคราะห์ตลาด · Forex · Gold · Investment",
+        icon: "📈",
+        iconBg: "linear-gradient(135deg, #4f8ef7, #8b5cf6)",
+        countColor: "rgba(79,142,247,0.15)",
+        countText: "#4f8ef7"
+    },
+    {
+        key: "news",
+        title: "News & Information",
+        subtitle: "ข่าวสารตลาด · ข่าวไทย · ข่าวทองคำ",
+        icon: "📰",
+        iconBg: "linear-gradient(135deg, #06b6d4, #3b82f6)",
+        countColor: "rgba(6,182,212,0.15)",
+        countText: "#06b6d4"
+    },
+    {
+        key: "tools",
+        title: "Tools & Automation",
+        subtitle: "Google Sheet · App Script · GaNesh27",
+        icon: "🛠️",
+        iconBg: "linear-gradient(135deg, #22c55e, #64748b)",
+        countColor: "rgba(34,197,94,0.15)",
+        countText: "#22c55e"
+    },
+    {
+        key: "lifestyle",
+        title: "Lifestyle & Services",
+        subtitle: "Trip Planner · Pickup · บริการต่างๆ",
+        icon: "🌟",
+        iconBg: "linear-gradient(135deg, #f97316, #14b8a6)",
+        countColor: "rgba(249,115,22,0.15)",
+        countText: "#f97316"
+    }
+];
+
+// ═══════════════════════════════════════
+// RENDER CATEGORIES
+// ═══════════════════════════════════════
+function renderCategories() {
+    const wrap = document.getElementById('categoriesWrap');
+    wrap.innerHTML = categories.map(cat => {
+        const catApps = apps.filter(a => a.cat === cat.key);
+        return `
+        <div class="cat-section">
+            <div class="cat-header">
+                <div class="cat-icon-badge" style="background:${cat.iconBg}">
+                    ${cat.icon}
                 </div>
-                <div class="app-info">
-                    <div class="app-name">${app.name}</div>
-                    <div class="app-desc">${app.desc}</div>
+                <div class="cat-title-wrap">
+                    <div class="cat-title">${cat.title}</div>
+                    <div class="cat-subtitle">${cat.subtitle}</div>
                 </div>
+                <span class="cat-count" style="background:${cat.countColor};color:${cat.countText}">
+                    ${catApps.length} แอป
+                </span>
             </div>
-            <div class="app-card-footer">
-                <span class="app-tag" style="background: ${app.tagColor}; color: ${app.tagText}">
-                    ${app.tag}
-                </span>
-                <span class="app-open-btn">
-                    เปิดแอป →
-                </span>
+            <div class="app-grid">
+                ${catApps.map((app, i) => buildCard(app, i)).join('')}
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
+
+    // Load previews after render
+    setTimeout(loadPreviews, 300);
 }
 
-// ========== FILTER CATEGORY ==========
-function filterCat(cat, btn) {
-    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    renderApps(cat);
+// ═══════════════════════════════════════
+// BUILD APP CARD (with preview iframe)
+// ═══════════════════════════════════════
+function buildCard(app, i) {
+    return `
+    <div class="app-card fade-up" onclick="openApp(${app.id})"
+         style="animation-delay:${i * 0.06}s">
+
+        <!-- Preview Area -->
+        <div class="app-preview" id="preview-${app.id}">
+            <!-- Color fallback bg -->
+            <div class="app-preview-color" style="background:${app.color}; opacity:0.18;">
+                <div class="preview-big-icon">${app.icon}</div>
+            </div>
+            <!-- Loading indicator -->
+            <div class="app-preview-loading" id="prev-loading-${app.id}">
+                <div class="preview-spinner"></div>
+                <div class="preview-loading-txt">กำลังโหลด Preview...</div>
+            </div>
+            <!-- Iframe preview (injected by JS) -->
+            <div class="app-preview-overlay"></div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="app-body">
+            <div class="app-header-row">
+                <div class="app-icon-sm" style="background:${app.color}">
+                    ${app.icon}
+                </div>
+                <div style="flex:1;min-width:0">
+                    <div class="app-name">${app.name}</div>
+                </div>
+            </div>
+            <div class="app-desc">${app.desc}</div>
+            <div class="app-footer">
+                <span class="app-tag"
+                    style="background:${app.tagColor};color:${app.tagText}">
+                    ${app.tag}
+                </span>
+                <span class="app-open">เปิดแอป →</span>
+            </div>
+        </div>
+    </div>
+    `;
 }
 
-// ========== OPEN APP ==========
+// ═══════════════════════════════════════
+// LOAD PREVIEWS (iframe screenshots)
+// ═══════════════════════════════════════
+// ใช้ screenshot service เพื่อดึงรูปหน้าเว็บ
+// เนื่องจาก iframe cross-origin ถูกบล็อก
+// จึงใช้ screenshot API แทน
+const screenshotServices = [
+    (url) => `https://api.screenshotmachine.com/?key=demo&url=${encodeURIComponent(url)}&dimension=1280x800&format=jpg&cacheLimit=0`,
+    (url) => `https://image.thum.io/get/width/640/crop/400/noanimate/${encodeURIComponent(url)}`,
+    (url) => `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=640&h=400`
+];
+
+function loadPreviews() {
+    apps.forEach(app => {
+        const previewEl = document.getElementById(`preview-${app.id}`);
+        const loadingEl = document.getElementById(`prev-loading-${app.id}`);
+        if (!previewEl) return;
+
+        // ใช้ thum.io เป็น screenshot service
+        const imgUrl = `https://image.thum.io/get/width/640/crop/400/noanimate/${encodeURIComponent(app.url)}`;
+
+        const img = new Image();
+        img.style.cssText = `
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: top;
+            z-index: 1;
+            transition: opacity 0.4s ease;
+            opacity: 0;
+        `;
+
+        img.onload = () => {
+            if (loadingEl) loadingEl.style.display = 'none';
+            previewEl.appendChild(img);
+            // Fade in
+            requestAnimationFrame(() => {
+                img.style.opacity = '1';
+            });
+        };
+
+        img.onerror = () => {
+            // Fallback: try wp.com mshots
+            const img2 = new Image();
+            img2.style.cssText = img.style.cssText;
+            img2.onload = () => {
+                if (loadingEl) loadingEl.style.display = 'none';
+                previewEl.appendChild(img2);
+                requestAnimationFrame(() => { img2.style.opacity = '1'; });
+            };
+            img2.onerror = () => {
+                // Final fallback: hide loading, show color bg
+                if (loadingEl) loadingEl.style.display = 'none';
+            };
+            img2.src = `https://s0.wp.com/mshots/v1/${encodeURIComponent(app.url)}?w=640&h=400`;
+        };
+
+        img.src = imgUrl;
+    });
+}
+
+// ═══════════════════════════════════════
+// OPEN APP
+// ═══════════════════════════════════════
 function openApp(id) {
-    const app = apps[id];
+    const app = apps.find(a => a.id === id);
     if (!app) return;
 
     document.getElementById('homeView').classList.remove('active');
     const iframeView = document.getElementById('iframeView');
     iframeView.classList.add('active');
 
-    document.getElementById('iframeUrlText').textContent = app.url;
+    document.getElementById('iframeUrlTxt').textContent = app.url;
     document.getElementById('openExternal').href = app.url;
 
     const iframe = document.getElementById('mainIframe');
     const loading = document.getElementById('iframeLoading');
-    
     loading.classList.remove('hidden');
     iframe.src = app.url;
 
-    // Update topbar title
-    document.querySelector('.topbar-title').innerHTML = `<span>${app.icon}</span> ${app.name}`;
+    document.querySelector('.topbar-title').innerHTML =
+        `<span>${app.icon}</span> ${app.name}`;
 
-    // Update sidebar active
-    document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
-
+    document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
     closeSearchDirect();
 }
 
-// ========== SHOW HOME ==========
+// ═══════════════════════════════════════
+// SHOW HOME
+// ═══════════════════════════════════════
 function showHome() {
     document.getElementById('homeView').classList.add('active');
     document.getElementById('iframeView').classList.remove('active');
-    document.querySelector('.topbar-title').innerHTML = `<span>⚡ AI</span> Command Center`;
+    document.querySelector('.topbar-title').innerHTML =
+        `<span>⚡ AI</span> Command Center`;
     document.getElementById('mainIframe').src = '';
-    
-    document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('sb-home').classList.add('active');
 }
 
-// ========== IFRAME LOADED ==========
+// ═══════════════════════════════════════
+// IFRAME EVENTS
+// ═══════════════════════════════════════
 function iframeLoaded() {
     document.getElementById('iframeLoading').classList.add('hidden');
 }
-
-// ========== RELOAD IFRAME ==========
 function reloadIframe() {
     const iframe = document.getElementById('mainIframe');
-    const loading = document.getElementById('iframeLoading');
-    loading.classList.remove('hidden');
+    document.getElementById('iframeLoading').classList.remove('hidden');
     iframe.src = iframe.src;
 }
 
-// ========== SEARCH ==========
+// ═══════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════
 function openSearch() {
     document.getElementById('searchOverlay').classList.add('active');
     document.getElementById('searchInput').value = '';
     renderSearchResults(apps);
     setTimeout(() => document.getElementById('searchInput').focus(), 100);
 }
-
 function closeSearch(e) {
-    if (e.target === document.getElementById('searchOverlay')) {
-        closeSearchDirect();
-    }
+    if (e.target === document.getElementById('searchOverlay')) closeSearchDirect();
 }
-
 function closeSearchDirect() {
     document.getElementById('searchOverlay').classList.remove('active');
 }
-
-function filterSearch(query) {
-    const filtered = apps.filter(a => 
-        a.name.toLowerCase().includes(query.toLowerCase()) ||
-        a.desc.toLowerCase().includes(query.toLowerCase()) ||
-        a.tag.toLowerCase().includes(query.toLowerCase())
+function filterSearch(q) {
+    const filtered = apps.filter(a =>
+        a.name.toLowerCase().includes(q.toLowerCase()) ||
+        a.desc.toLowerCase().includes(q.toLowerCase()) ||
+        a.tag.toLowerCase().includes(q.toLowerCase())
     );
     renderSearchResults(filtered);
 }
-
 function renderSearchResults(list) {
-    const container = document.getElementById('searchResults');
-    if (list.length === 0) {
-        container.innerHTML = '<div style="text-align:center; padding:24px; color:var(--text-muted); font-size:13px">ไม่พบแอปที่ค้นหา</div>';
+    const el = document.getElementById('searchResults');
+    if (!list.length) {
+        el.innerHTML = `<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:13px">ไม่พบแอปที่ค้นหา</div>`;
         return;
     }
-    container.innerHTML = list.map(app => `
-        <div class="search-result-item" onclick="openApp(${app.id})">
-            <div class="search-result-icon" style="background: ${app.color}">${app.icon}</div>
-            <div class="search-result-info">
-                <div class="search-result-name">${app.name}</div>
-                <div class="search-result-desc">${app.desc.substring(0, 60)}...</div>
+    el.innerHTML = list.map(app => `
+        <div class="search-item" onclick="openApp(${app.id})">
+            <div class="search-item-icon" style="background:${app.color}">${app.icon}</div>
+            <div style="flex:1">
+                <div class="search-item-name">${app.name}</div>
+                <div class="search-item-desc">${app.desc.substring(0,65)}...</div>
             </div>
-            <span style="font-size:12px; color:var(--text-muted)">→</span>
+            <span style="font-size:12px;color:var(--text-muted)">→</span>
         </div>
     `).join('');
 }
 
-// ========== KEYBOARD SHORTCUTS ==========
-document.addEventListener('keydown', (e) => {
+// ═══════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════
+document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        openSearch();
+        e.preventDefault(); openSearch();
     }
-    if (e.key === 'Escape') {
-        closeSearchDirect();
-        showHome();
-    }
+    if (e.key === 'Escape') { closeSearchDirect(); }
 });
 
-// ========== CLOCK ==========
+// ═══════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════
 function updateTime() {
     const now = new Date();
-    const timeStr = now.toLocaleTimeString('th-TH', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        second: '2-digit'
-    });
-    const dateStr = now.toLocaleDateString('th-TH', {
-        day: 'numeric',
-        month: 'short'
-    });
-    
-    const topbarTime = document.getElementById('topbarTime');
-    if (topbarTime) topbarTime.textContent = `${dateStr} ${timeStr}`;
-    
-    const sidebarTime = document.getElementById('sidebarTime');
-    if (sidebarTime) sidebarTime.textContent = timeStr;
+    const t = now.toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    const d = now.toLocaleDateString('th-TH', { day:'numeric', month:'short' });
+    const tb = document.getElementById('topbarTime');
+    const sb = document.getElementById('sidebarTime');
+    if (tb) tb.textContent = `${d} ${t}`;
+    if (sb) sb.textContent = t;
 }
-
 setInterval(updateTime, 1000);
 updateTime();
 
-// ========== PARTICLES ==========
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + 'vw';
-    particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-    particle.style.animationDelay = Math.random() * 5 + 's';
-    particle.style.opacity = Math.random() * 0.5 + 0.1;
-    document.body.appendChild(particle);
-    
-    setTimeout(() => particle.remove(), 25000);
+// ═══════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════
+function spawnParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (Math.random() * 14 + 10) + 's';
+    p.style.animationDelay = Math.random() * 4 + 's';
+    p.style.opacity = Math.random() * 0.4 + 0.1;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 28000);
 }
+setInterval(spawnParticle, 3500);
 
-setInterval(createParticle, 3000);
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+renderCategories();
 
-// ========== INIT ==========
-renderApps();
-
-// ========== PWA SERVICE WORKER REGISTRATION ==========
+// PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(registration => {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(err => {
-                console.log('ServiceWorker registration failed: ', err);
-            });
+            .then(r => console.log('SW registered:', r.scope))
+            .catch(e => console.log('SW failed:', e));
     });
 }
 </script>
