@@ -1159,6 +1159,7 @@
         <button class="sb-btn" onclick="openApp(5)">🥇<span class="tip">XAU Alert</span></button>
         <button class="sb-btn" onclick="openApp(12)">💎<span class="tip">Investment</span></button>
         <button class="sb-btn" onclick="openApp(15)">📋<span class="tip">Manage Order</span></button>
+        <button class="sb-btn" onclick="openApp(16)">🧮<span class="tip">Calculate Lot</span></button>
 
         <div class="sidebar-sep"></div>
         <div class="sb-cat-label">📰</div>
@@ -1220,7 +1221,7 @@
                 <!-- STATS -->
                 <div class="stats-row">
                     <div class="stat-card fade-up">
-                        <div class="stat-val">15</div>
+                        <div class="stat-val">16</div>
                         <div class="stat-lbl">AI Apps</div>
                     </div>
                     <div class="stat-card fade-up">
@@ -1536,6 +1537,19 @@ const apps = [
         url: "https://basssg.github.io/Delete_Order/",
         cat: "trading"
     },
+{
+        id: 16,
+        name: "Calculate Lot",
+        desc: "เครื่องคำนวณ Lot Size สำหรับ Trading วางแผนขนาดสถานะตามความเสี่ยงและทุนที่มี",
+        icon: "🧮",
+        color: "linear-gradient(135deg, #14b8a6, #0d9488)",
+        glow: "rgba(20,184,166,0.2)",
+        tag: "Trading Tool",
+        tagColor: "rgba(20,184,166,0.15)",
+        tagText: "#14b8a6",
+        url: "https://basssg.github.io/Calculate-Lot/",
+        cat: "trading"
+    },
     {
         id: 14,
         name: "Pickup",
@@ -1543,13 +1557,13 @@ const apps = [
         icon: "🚗",
         color: "linear-gradient(135deg, #14b8a6, #0d9488)",
         glow: "rgba(20,184,166,0.2)",
-        tag: "Service", tagColor: "rgba(20,184,166,0.15)", tagText: "#14b8a6",
+        tag: "Service",
+        tagColor: "rgba(20,184,166,0.15)",
+        tagText: "#14b8a6",
         url: "https://basssg.github.io/Pickup/",
         cat: "lifestyle"
     }
 ];
-
-// ═══════════════════════════════════════
 // CATEGORY CONFIG
 // ═══════════════════════════════════════
 const categories = [
